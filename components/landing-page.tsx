@@ -82,55 +82,100 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent" />
-        <div className="container mx-auto px-4 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl"
-          >
-            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20" variant="outline">
-              Powered by AI
-            </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary/50">
-              Create Smart Contracts with Artificial Intelligence
-            </h1>
-            <p className="text-xl text-gray-400 mb-8">
-              Revolutionize your blockchain development with AI-powered smart contract generation. Secure, efficient,
-              and intelligent contract creation at your fingertips.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90">
-                View Documentation
-              </Button>
-              <Button size="lg" variant="outline" className="bg-white hover:bg-white/90 text-black border-white">
-                Get Started
-                <ChevronRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-          </motion.div>
+      <section className="min-h-[70vh] pt-16 pb-8 relative overflow-hidden flex items-center">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent animate-gradient" />
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0)_0%,rgba(0,0,0,0.2)_100%)]" />
+          </div>
         </div>
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 aspect-square hidden lg:block">
-          <div className="relative w-full h-full">
-            <Image
-              src="/img.jpeg"
-              alt="AI Visualization"
-              fill
-              className="object-cover opacity-80"
-            />
+
+        <div className="container mx-auto px-4 relative">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="max-w-4xl"
+            >
+              <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" variant="outline">
+                Powered by AI
+              </Badge>
+              <div className="space-y-4">
+                <motion.h1 
+                  className="text-4xl md:text-6xl font-bold leading-tight md:leading-snug"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                >
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-primary/50 animate-gradient-x">
+                    Create Smart Contracts
+                  </span>
+                  {" "}
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary/80 to-white">
+                    with Artificial Intelligence
+                  </span>
+                </motion.h1>
+                <motion.p 
+                  className="text-xl text-gray-400 max-w-3xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
+                >
+                  Revolutionize your blockchain development with AI-powered smart contract generation. Secure, efficient,
+                  and intelligent contract creation at your fingertips.
+                </motion.p>
+                <motion.div 
+                  className="flex flex-col sm:flex-row gap-4 pt-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.6 }}
+                >
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105">
+                    View Documentation
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="bg-white hover:bg-white/90 text-black border-white group relative overflow-hidden"
+                  >
+                    <span className="relative z-10 group-hover:text-white transition-colors">
+                      Get Started
+                      <ChevronRight className="ml-2 h-5 w-5 inline-block group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <span className="absolute inset-0 bg-primary transform translate-y-full group-hover:translate-y-0 transition-transform" />
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Enhanced Image Section */}
+            <motion.div 
+              className="hidden lg:block relative h-[350px]"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 0.8, x: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                <Image
+                  src="/img.jpeg"
+                  alt="AI Visualization"
+                  fill
+                  className="object-cover"
+                  style={{ filter: 'brightness(0.8) contrast(1.2)' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/40 to-transparent" />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Blockchain Networks Section */}
-      <section className="py-20 bg-black/50 overflow-hidden">
+      <section className="pt-8 pb-20 bg-black/50 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
-              Networks
-            </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Supported Blockchain Networks</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Deploy your smart contracts across multiple leading blockchain networks
