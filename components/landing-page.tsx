@@ -9,6 +9,7 @@ import { motion } from "framer-motion"
 import { Brain, Code2, LinkIcon, Shield, Cpu, ChevronRight, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
@@ -53,7 +54,7 @@ export default function LandingPage() {
           </Link>
           <div className="flex items-center space-x-4">
             <nav className="hidden md:flex items-center space-x-8">
-              {["features", "how-it-works", "testimonials"].map((section) => (
+              {["features", "how-it-works", "testimonials", "FAQ"].map((section) => (
                 <Link
                   key={section}
                   href={`#${section}`}
@@ -90,7 +91,7 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="max-w-3xl"
           >
-            <Badge className="mb-4" variant="outline">
+            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20" variant="outline">
               Powered by AI
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary/50">
@@ -102,11 +103,11 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90">
+                View Documentation
+              </Button>
+              <Button size="lg" variant="outline" className="bg-white hover:bg-white/90 text-black border-white">
                 Get Started
                 <ChevronRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button size="lg" variant="outline">
-                View Documentation
               </Button>
             </div>
           </motion.div>
@@ -123,11 +124,49 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Blockchain Networks Section */}
+      <section className="py-20 bg-black/50 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
+              Networks
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Supported Blockchain Networks</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Deploy your smart contracts across multiple leading blockchain networks
+            </p>
+          </div>
+          <div className="relative">
+            <div className="flex overflow-hidden">
+              <motion.div
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="flex gap-8 items-center whitespace-nowrap"
+              >
+                {[...blockchains, ...blockchains].map((chain, index) => (
+                  <div
+                    key={`${chain.name}-${index}`}
+                    className="flex items-center gap-2 bg-white/5 px-6 py-3 rounded-full"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-primary to-primary/50" />
+                    <span className="text-lg font-semibold">{chain.name}</span>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section id="features" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
               Features
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Powered by Advanced Technology</h2>
@@ -161,7 +200,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
               Process
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
@@ -202,7 +241,7 @@ export default function LandingPage() {
       <section id="testimonials" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
               Testimonials
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
@@ -258,6 +297,31 @@ export default function LandingPage() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="FAQ" className="py-20 bg-black/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
+              FAQ
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Everything you need to know about our AI-powered smart contract platform
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible>
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left text-white">{faq.question}</AccordionTrigger>
+                  <AccordionContent className="text-gray-400">{faq.answer}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
@@ -363,6 +427,50 @@ const testimonials = [
     name: "Michael Rodriguez",
     title: "Smart Contract Engineer",
     avatar: "/placeholder.svg?height=80&width=80",
+  },
+]
+
+const blockchains = [
+  { name: "Ethereum" },
+  { name: "Arbitrum" },
+  { name: "Blast" },
+  { name: "Optimism" },
+  { name: "Base" },
+  { name: "Polygon" },
+  { name: "Avalanche" },
+  { name: "BNB Chain" },
+]
+
+const faqs = [
+  {
+    question: "What is SmartAI?",
+    answer:
+      "SmartAI is an AI-powered platform that enables developers to create, deploy, and manage smart contracts efficiently. Our platform uses advanced artificial intelligence to generate secure and optimized smart contract code based on your requirements.",
+  },
+  {
+    question: "How does the AI smart contract generation work?",
+    answer:
+      "Our AI analyzes your requirements provided in natural language or through our interface, understands the intended functionality, and generates secure smart contract code following best practices. The AI is trained on thousands of audited smart contracts and continuously updated with the latest security patterns.",
+  },
+  {
+    question: "Which blockchains are supported?",
+    answer:
+      "SmartAI supports all major EVM-compatible blockchains including Ethereum, Arbitrum, Blast, Optimism, Base, Polygon, Avalanche, and BNB Chain. We're continuously adding support for more blockchain networks.",
+  },
+  {
+    question: "Is the generated code secure?",
+    answer:
+      "Yes, all generated smart contracts undergo rigorous security checks. Our AI is trained on security best practices and common vulnerabilities. Additionally, we provide automated auditing tools and recommend manual audits for high-value contracts.",
+  },
+  {
+    question: "Can I customize the generated smart contracts?",
+    answer:
+      "Absolutely! While our AI generates the initial code, you have full control to modify and customize the smart contracts according to your specific needs. Our platform provides an intuitive interface for making changes while maintaining security.",
+  },
+  {
+    question: "What kind of support do you offer?",
+    answer:
+      "We offer comprehensive support including detailed documentation, video tutorials, and a dedicated support team. Our community forum is also active with developers helping each other. Enterprise customers get access to priority support and consulting services.",
   },
 ]
 
