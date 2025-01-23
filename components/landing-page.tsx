@@ -50,7 +50,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Brain className="w-8 h-8 text-primary" />
-            <span className="font-bold text-xl">SmartAI</span>
+            <span className="font-medium tracking-tight text-xl">SmartAI</span>
           </Link>
           <div className="flex items-center space-x-4">
             <nav className="hidden md:flex items-center space-x-8">
@@ -58,7 +58,7 @@ export default function LandingPage() {
                 <Link
                   key={section}
                   href={`#${section}`}
-                  className="text-sm hover:text-primary transition-colors relative group"
+                  className="text-sm font-light tracking-wide hover:text-primary transition-colors relative group"
                   onClick={(e) => {
                     e.preventDefault()
                     document.querySelector(`#${section}`)?.scrollIntoView({ behavior: "smooth" })
@@ -72,7 +72,7 @@ export default function LandingPage() {
                 </Link>
               ))}
             </nav>
-            <Button className="bg-primary hover:bg-primary/90 relative overflow-hidden group" size="sm">
+            <Button className="bg-primary hover:bg-primary/90 relative overflow-hidden group font-light tracking-wide" size="sm">
               <span className="relative z-10">Launch dApp</span>
               <span className="absolute inset-0 bg-white/20 transform translate-y-full transition-transform group-hover:translate-y-0" />
               <ExternalLink className="ml-2 h-4 w-4 relative z-10" />
@@ -104,7 +104,7 @@ export default function LandingPage() {
               </Badge>
               <div className="space-y-4">
                 <motion.h1 
-                  className="text-4xl md:text-6xl font-bold leading-tight md:leading-snug"
+                  className="text-4xl md:text-7xl font-light tracking-tighter leading-tight md:leading-snug"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
@@ -113,12 +113,12 @@ export default function LandingPage() {
                     Create Smart Contracts
                   </span>
                   {" "}
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary/80 to-white">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary/80 to-white font-light">
                     with Artificial Intelligence
                   </span>
                 </motion.h1>
                 <motion.p 
-                  className="text-xl text-gray-400 max-w-3xl"
+                  className="text-xl text-gray-400 max-w-3xl font-light tracking-wide"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
@@ -165,7 +165,8 @@ export default function LandingPage() {
                   className="object-cover"
                   style={{ filter: 'brightness(0.8) contrast(1.2)' }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/40 to-transparent" />
+                {/* Gradient overlay for right-to-left fade */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
               </div>
             </motion.div>
           </div>
@@ -176,8 +177,8 @@ export default function LandingPage() {
       <section className="pt-8 pb-20 bg-black/50 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Supported Blockchain Networks</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Supported Blockchain Networks</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
               Deploy your smart contracts across multiple leading blockchain networks
             </p>
           </div>
@@ -186,23 +187,25 @@ export default function LandingPage() {
               <motion.div
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{
-                  duration: 20,
+                  duration: 30,
                   repeat: Infinity,
                   ease: "linear",
                 }}
-                className="flex gap-8 items-center whitespace-nowrap"
+                className="flex gap-6 items-center whitespace-nowrap"
               >
                 {[...blockchains, ...blockchains].map((chain, index) => (
                   <div
                     key={`${chain.name}-${index}`}
-                    className="flex items-center gap-2 bg-white/5 px-6 py-3 rounded-full"
+                    className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.05] backdrop-blur-sm px-5 py-2.5 rounded-lg hover:bg-white/[0.06] transition-all duration-300"
                   >
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-primary to-primary/50" />
-                    <span className="text-lg font-semibold">{chain.name}</span>
+                    <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-primary/80 to-primary opacity-80" />
+                    <span className="text-base font-medium text-white/90">{chain.name}</span>
                   </div>
                 ))}
               </motion.div>
             </div>
+            <div className="absolute inset-y-0 left-0 w-[100px] bg-gradient-to-r from-black to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-[100px] bg-gradient-to-l from-black to-transparent z-10" />
           </div>
         </div>
       </section>
@@ -211,11 +214,11 @@ export default function LandingPage() {
       <section id="features" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
               Features
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Powered by Advanced Technology</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Powered by Advanced Technology</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
               Our platform combines cutting-edge AI with blockchain technology to deliver a seamless smart contract
               creation experience.
             </p>
@@ -231,8 +234,8 @@ export default function LandingPage() {
                 <Card className="bg-white/5 border-white/10 hover:border-primary/50 transition-colors">
                   <CardContent className="p-6">
                     <feature.icon className="w-12 h-12 text-primary mb-4" />
-                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-gray-400">{feature.description}</p>
+                    <h3 className="text-xl font-light tracking-tight mb-2">{feature.title}</h3>
+                    <p className="text-gray-400 font-light tracking-wide">{feature.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -245,11 +248,11 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
               Process
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">How It Works</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
               Create and deploy smart contracts in minutes with our intuitive process
             </p>
           </div>
@@ -264,11 +267,11 @@ export default function LandingPage() {
               >
                 <Card className="bg-white/5 border-white/10">
                   <CardContent className="p-6">
-                    <div className="text-5xl font-bold text-primary/20 mb-4">
+                    <div className="text-5xl font-light tracking-tighter text-primary/20 mb-4">
                       {(index + 1).toString().padStart(2, "0")}
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                    <p className="text-gray-400">{step.description}</p>
+                    <h3 className="text-xl font-light tracking-tight mb-2">{step.title}</h3>
+                    <p className="text-gray-400 font-light tracking-wide">{step.description}</p>
                   </CardContent>
                 </Card>
                 {index < steps.length - 1 && (
@@ -286,11 +289,11 @@ export default function LandingPage() {
       <section id="testimonials" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
               Testimonials
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">What Our Users Say</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
               Join thousands of developers who trust our platform for their smart contract needs
             </p>
           </div>
@@ -331,11 +334,11 @@ export default function LandingPage() {
           <Card className="bg-gradient-to-r from-primary/20 to-primary/10 border-white/10">
             <CardContent className="p-12">
               <div className="max-w-2xl mx-auto text-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-                <p className="text-gray-400 mb-8">
+                <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Ready to Get Started?</h2>
+                <p className="text-gray-400 mb-8 font-light tracking-wide">
                   Join the future of smart contract development with AI-powered solutions.
                 </p>
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 font-light tracking-wide">
                   Launch dApp
                   <ExternalLink className="ml-2 h-5 w-5" />
                 </Button>
@@ -349,11 +352,11 @@ export default function LandingPage() {
       <section id="FAQ" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20">
+            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
               FAQ
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Frequently Asked Questions</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
               Everything you need to know about our AI-powered smart contract platform
             </p>
           </div>
