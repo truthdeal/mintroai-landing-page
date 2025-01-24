@@ -241,7 +241,7 @@ export default function LandingPage() {
               >
                 <Card className="bg-indigo-950/20 border-indigo-500/10 hover:border-indigo-500/30 hover:bg-indigo-950/30 transition-colors">
                   <CardContent className="p-6">
-                    <feature.icon className="w-12 h-12 text-primary/90 mb-4" />
+                    <feature.icon className="w-12 h-12 text-violet-400 mb-4" />
                     <h3 className="text-xl font-[450] tracking-tight mb-2 text-neutral-200">{feature.title}</h3>
                     <p className="text-neutral-400 font-[350] tracking-wide">{feature.description}</p>
                   </CardContent>
@@ -275,7 +275,7 @@ export default function LandingPage() {
               >
                 <Card className="bg-white/[0.02] border-white/5">
                   <CardContent className="p-6">
-                    <div className="text-5xl font-[450] tracking-tighter text-primary/90 mb-4">
+                    <div className="text-5xl font-[450] tracking-tighter text-violet-400 mb-4">
                       {(index + 1).toString().padStart(2, "0")}
                     </div>
                     <h3 className="text-xl font-[450] tracking-tight mb-2 text-neutral-200">{step.title}</h3>
@@ -330,8 +330,8 @@ export default function LandingPage() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="bg-white/10 hover:bg-white/20 border-white/20" />
+            <CarouselNext className="bg-white/10 hover:bg-white/20 border-white/20" />
           </Carousel>
         </div>
       </section>
@@ -342,7 +342,7 @@ export default function LandingPage() {
           <Card className="bg-indigo-950/30 border-indigo-500/20 hover:bg-indigo-950/40 transition-colors">
             <CardContent className="p-12">
               <div className="max-w-2xl mx-auto text-center">
-                <h2 className="text-3xl md:text-5xl font-[450] tracking-tighter mb-4">Ready to Get Started?</h2>
+                <h2 className="text-3xl md:text-5xl font-[450] tracking-tighter mb-4 text-white">Ready to Get Started?</h2>
                 <p className="text-white/80 mb-8 font-[350] tracking-wide">
                   Join the future of smart contract development with AI-powered solutions.
                 </p>
