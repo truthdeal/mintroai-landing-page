@@ -58,7 +58,7 @@ export default function LandingPage() {
                 <Link
                   key={section}
                   href={`#${section}`}
-                  className="text-sm font-light tracking-wide hover:text-primary transition-colors relative group"
+                  className="text-sm font-[450] tracking-wider text-white/90 hover:text-white transition-colors relative group"
                   onClick={(e) => {
                     e.preventDefault()
                     document.querySelector(`#${section}`)?.scrollIntoView({ behavior: "smooth" })
@@ -68,13 +68,13 @@ export default function LandingPage() {
                     .split("-")
                     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(" ")}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/40 transition-all group-hover:w-full" />
                 </Link>
               ))}
             </nav>
-            <Button className="bg-primary hover:bg-primary/90 relative overflow-hidden group font-light tracking-wide" size="sm">
+            <Button className="bg-primary/90 hover:bg-primary relative overflow-hidden group font-[450] tracking-wider" size="sm">
               <span className="relative z-10">Launch dApp</span>
-              <span className="absolute inset-0 bg-white/20 transform translate-y-full transition-transform group-hover:translate-y-0" />
+              <span className="absolute inset-0 bg-white/10 transform translate-y-full transition-transform group-hover:translate-y-0" />
               <ExternalLink className="ml-2 h-4 w-4 relative z-10" />
             </Button>
           </div>
@@ -99,9 +99,9 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="max-w-4xl"
             >
-              <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" variant="outline">
+              {/* <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" variant="outline">
                 Powered by AI
-              </Badge>
+              </Badge> */}
               <div className="space-y-4">
                 <motion.h1 
                   className="text-4xl md:text-7xl font-light tracking-tighter leading-tight md:leading-snug"
@@ -118,7 +118,7 @@ export default function LandingPage() {
                   </span>
                 </motion.h1>
                 <motion.p 
-                  className="text-xl text-gray-400 max-w-3xl font-light tracking-wide"
+                  className="text-xl text-gray-400 max-w-3xl font-normal tracking-wide"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4 }}
@@ -177,8 +177,8 @@ export default function LandingPage() {
       <section className="pt-8 pb-20 bg-black/50 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Supported Blockchain Networks</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
+            <h2 className="text-3xl md:text-5xl font-normal tracking-tighter mb-4">Supported Blockchain Networks</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-normal tracking-wide">
               Deploy your smart contracts across multiple leading blockchain networks
             </p>
           </div>
@@ -214,11 +214,11 @@ export default function LandingPage() {
       <section id="features" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
+            {/* <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-normal">
               Features
-            </Badge>
-            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Powered by Advanced Technology</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
+            </Badge> */}
+            <h2 className="text-3xl md:text-5xl font-normal tracking-tighter mb-4">Powered by Advanced Technology</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-normal tracking-wide">
               Our platform combines cutting-edge AI with blockchain technology to deliver a seamless smart contract
               creation experience.
             </p>
@@ -234,8 +234,8 @@ export default function LandingPage() {
                 <Card className="bg-white/5 border-white/10 hover:border-primary/50 transition-colors">
                   <CardContent className="p-6">
                     <feature.icon className="w-12 h-12 text-primary mb-4" />
-                    <h3 className="text-xl font-light tracking-tight mb-2">{feature.title}</h3>
-                    <p className="text-gray-400 font-light tracking-wide">{feature.description}</p>
+                    <h3 className="text-xl font-[450] tracking-tight mb-2 text-white">{feature.title}</h3>
+                    <p className="text-white/80 font-[350] tracking-wide">{feature.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -248,11 +248,11 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
+            {/* <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-normal">
               Process
-            </Badge>
-            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">How It Works</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
+            </Badge> */}
+            <h2 className="text-3xl md:text-5xl font-normal tracking-tighter mb-4">How It Works</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-normal tracking-wide">
               Create and deploy smart contracts in minutes with our intuitive process
             </p>
           </div>
@@ -267,11 +267,11 @@ export default function LandingPage() {
               >
                 <Card className="bg-white/5 border-white/10">
                   <CardContent className="p-6">
-                    <div className="text-5xl font-light tracking-tighter text-primary/20 mb-4">
+                    <div className="text-5xl font-[450] tracking-tighter text-primary mb-4">
                       {(index + 1).toString().padStart(2, "0")}
                     </div>
-                    <h3 className="text-xl font-light tracking-tight mb-2">{step.title}</h3>
-                    <p className="text-gray-400 font-light tracking-wide">{step.description}</p>
+                    <h3 className="text-xl font-[450] tracking-tight mb-2 text-white">{step.title}</h3>
+                    <p className="text-white/80 font-[350] tracking-wide">{step.description}</p>
                   </CardContent>
                 </Card>
                 {index < steps.length - 1 && (
@@ -289,11 +289,11 @@ export default function LandingPage() {
       <section id="testimonials" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
+            {/* <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-normal">
               Testimonials
-            </Badge>
-            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">What Our Users Say</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
+            </Badge> */}
+            <h2 className="text-3xl md:text-5xl font-normal tracking-tighter mb-4">What Our Users Say</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto font-normal tracking-wide">
               Join thousands of developers who trust our platform for their smart contract needs
             </p>
           </div>
@@ -331,14 +331,14 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <Card className="bg-gradient-to-r from-primary/20 to-primary/10 border-white/10">
+          <Card className="bg-white/[0.02] border-white/10 hover:bg-white/[0.04] transition-colors">
             <CardContent className="p-12">
               <div className="max-w-2xl mx-auto text-center">
-                <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Ready to Get Started?</h2>
-                <p className="text-gray-400 mb-8 font-light tracking-wide">
+                <h2 className="text-3xl md:text-5xl font-[450] tracking-tighter mb-4">Ready to Get Started?</h2>
+                <p className="text-white/80 mb-8 font-[350] tracking-wide">
                   Join the future of smart contract development with AI-powered solutions.
                 </p>
-                <Button size="lg" className="bg-primary hover:bg-primary/90 font-light tracking-wide">
+                <Button size="lg" className="bg-primary/90 hover:bg-primary font-[450] tracking-wider">
                   Launch dApp
                   <ExternalLink className="ml-2 h-5 w-5" />
                 </Button>
@@ -352,11 +352,8 @@ export default function LandingPage() {
       <section id="FAQ" className="py-20 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 bg-white/10 text-white hover:bg-white/20 font-light">
-              FAQ
-            </Badge>
-            <h2 className="text-3xl md:text-5xl font-light tracking-tighter mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto font-light tracking-wide">
+            <h2 className="text-3xl md:text-5xl font-[450] tracking-tighter mb-4">Frequently Asked Questions</h2>
+            <p className="text-white/80 max-w-2xl mx-auto font-[350] tracking-wide">
               Everything you need to know about our AI-powered smart contract platform
             </p>
           </div>
@@ -364,8 +361,8 @@ export default function LandingPage() {
             <Accordion type="single" collapsible>
               {faqs.map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-white">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="text-gray-400">{faq.answer}</AccordionContent>
+                  <AccordionTrigger className="text-left text-white font-[450] tracking-wide">{faq.question}</AccordionTrigger>
+                  <AccordionContent className="text-white/80 font-[350] tracking-wide">{faq.answer}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

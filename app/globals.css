@@ -8,6 +8,7 @@
   html {
     font-feature-settings: "ss01" on, "ss02" on, "cv01" on, "cv02" on;
     text-rendering: optimizeLegibility;
+    font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
   }
   :root {
     --background: 0 0% 100%;
@@ -62,14 +63,18 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
 
