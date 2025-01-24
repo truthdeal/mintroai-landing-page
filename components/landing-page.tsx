@@ -72,7 +72,7 @@ export default function LandingPage() {
                 </Link>
               ))}
             </nav>
-            <Button className="bg-primary/90 hover:bg-primary relative overflow-hidden group font-[450] tracking-wider" size="sm">
+            <Button className="bg-primary/90 hover:bg-primary relative overflow-hidden group font-[450] tracking-wider" size="sm" onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}>
               <span className="relative z-10">Launch dApp</span>
               <span className="absolute inset-0 bg-white/10 transform translate-y-full transition-transform group-hover:translate-y-0" />
               <ExternalLink className="ml-2 h-4 w-4 relative z-10" />
@@ -139,6 +139,7 @@ export default function LandingPage() {
                     size="lg" 
                     variant="outline" 
                     className="bg-white hover:bg-white/90 text-black border-white group relative overflow-hidden"
+                    onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}
                   >
                     <span className="relative z-10 group-hover:text-white transition-colors">
                       Get Started
@@ -345,7 +346,7 @@ export default function LandingPage() {
                 <p className="text-white/80 mb-8 font-[350] tracking-wide">
                   Join the future of smart contract development with AI-powered solutions.
                 </p>
-                <Button size="lg" className="bg-primary/90 hover:bg-primary font-[450] tracking-wider">
+                <Button size="lg" className="bg-primary/90 hover:bg-primary font-[450] tracking-wider" onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}>
                   Launch dApp
                   <ExternalLink className="ml-2 h-5 w-5" />
                 </Button>
