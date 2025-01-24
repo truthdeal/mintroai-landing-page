@@ -196,16 +196,23 @@ export default function LandingPage() {
                 {[...blockchains, ...blockchains].map((chain, index) => (
                   <div
                     key={`${chain.name}-${index}`}
-                    className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.05] backdrop-blur-sm px-5 py-2.5 rounded-lg hover:bg-white/[0.06] transition-all duration-300"
+                    className="flex items-center gap-4 bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm px-6 py-3 rounded-xl hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300 group"
                   >
-                    <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-primary/80 to-primary opacity-80" />
-                    <span className="text-base font-medium text-white/90">{chain.name}</span>
+                    <div className="relative w-6 h-6 rounded-lg overflow-hidden">
+                      <Image
+                        src={chain.logo}
+                        alt={`${chain.name} logo`}
+                        fill
+                        className="object-contain group-hover:scale-110 transition-transform"
+                      />
+                    </div>
+                    <span className="text-base font-[450] text-neutral-300 group-hover:text-white transition-colors">{chain.name}</span>
                   </div>
                 ))}
               </motion.div>
             </div>
-            <div className="absolute inset-y-0 left-0 w-[100px] bg-gradient-to-r from-black to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-[100px] bg-gradient-to-l from-black to-transparent z-10" />
+            <div className="absolute inset-y-0 left-0 w-[200px] bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-[200px] bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
           </div>
         </div>
       </section>
@@ -233,9 +240,9 @@ export default function LandingPage() {
               >
                 <Card className="bg-indigo-950/20 border-indigo-500/10 hover:border-indigo-500/30 hover:bg-indigo-950/30 transition-colors">
                   <CardContent className="p-6">
-                    <feature.icon className="w-12 h-12 text-primary mb-4" />
-                    <h3 className="text-xl font-[450] tracking-tight mb-2 text-white">{feature.title}</h3>
-                    <p className="text-white/80 font-[350] tracking-wide">{feature.description}</p>
+                    <feature.icon className="w-12 h-12 text-primary/90 mb-4" />
+                    <h3 className="text-xl font-[450] tracking-tight mb-2 text-neutral-200">{feature.title}</h3>
+                    <p className="text-neutral-400 font-[350] tracking-wide">{feature.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -265,13 +272,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="relative"
               >
-                <Card className="bg-indigo-950/20 border-indigo-500/10">
+                <Card className="bg-white/[0.02] border-white/5">
                   <CardContent className="p-6">
-                    <div className="text-5xl font-[450] tracking-tighter text-primary mb-4">
+                    <div className="text-5xl font-[450] tracking-tighter text-primary/90 mb-4">
                       {(index + 1).toString().padStart(2, "0")}
                     </div>
-                    <h3 className="text-xl font-[450] tracking-tight mb-2 text-white">{step.title}</h3>
-                    <p className="text-white/80 font-[350] tracking-wide">{step.description}</p>
+                    <h3 className="text-xl font-[450] tracking-tight mb-2 text-neutral-200">{step.title}</h3>
+                    <p className="text-neutral-400 font-[350] tracking-wide">{step.description}</p>
                   </CardContent>
                 </Card>
                 {index < steps.length - 1 && (
@@ -301,9 +308,9 @@ export default function LandingPage() {
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index}>
-                  <Card className="bg-indigo-950/20 border-indigo-500/10">
+                  <Card className="bg-white/[0.02] border-white/5">
                     <CardContent className="p-6">
-                      <p className="text-white/80 mb-4">{testimonial.content}</p>
+                      <p className="text-neutral-400 mb-4">{testimonial.content}</p>
                       <div className="flex items-center">
                         <Image
                           src={testimonial.avatar || "/placeholder.svg"}
@@ -313,8 +320,8 @@ export default function LandingPage() {
                           className="rounded-full"
                         />
                         <div className="ml-3">
-                          <div className="font-[450] text-white">{testimonial.name}</div>
-                          <div className="text-sm text-white/70">{testimonial.title}</div>
+                          <div className="font-[450] text-neutral-200">{testimonial.name}</div>
+                          <div className="text-sm text-neutral-400">{testimonial.title}</div>
                         </div>
                       </div>
                     </CardContent>
@@ -360,9 +367,9 @@ export default function LandingPage() {
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible className="space-y-2">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className="bg-indigo-950/20 border-indigo-500/10 rounded-lg px-4">
-                  <AccordionTrigger className="text-left text-white font-[450] tracking-wide hover:text-white/90">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="text-white/80 font-[350] tracking-wide">{faq.answer}</AccordionContent>
+                <AccordionItem key={index} value={`item-${index}`} className="bg-white/[0.02] border-white/5 rounded-lg px-4">
+                  <AccordionTrigger className="text-left text-neutral-200 font-[450] tracking-wide hover:text-white/90">{faq.question}</AccordionTrigger>
+                  <AccordionContent className="text-neutral-400 font-[350] tracking-wide">{faq.answer}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
@@ -476,14 +483,14 @@ const testimonials = [
 ]
 
 const blockchains = [
-  { name: "Ethereum" },
-  { name: "Arbitrum" },
-  { name: "Blast" },
-  { name: "Optimism" },
-  { name: "Base" },
-  { name: "Polygon" },
-  { name: "Avalanche" },
-  { name: "BNB Chain" },
+  { name: "Ethereum", logo: "/logos/ethereum.svg" },
+  { name: "Arbitrum", logo: "/logos/arbitrum.svg" },
+  { name: "Blast", logo: "/logos/blast.svg" },
+  { name: "Optimism", logo: "/logos/optimism.svg" },
+  { name: "Base", logo: "/logos/base.svg" },
+  { name: "Polygon", logo: "/logos/polygon.svg" },
+  { name: "Avalanche", logo: "/logos/avalanche.svg" },
+  { name: "BNB Chain", logo: "/logos/bnb.svg" },
 ]
 
 const faqs = [
