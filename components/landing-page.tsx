@@ -159,7 +159,7 @@ export default function LandingPage() {
             >
               <div className="relative w-full h-full rounded-2xl overflow-hidden">
                 <Image
-                  src="/img.jpeg"
+                  src="/img2.jpeg"
                   alt="AI Visualization"
                   fill
                   className="object-cover"
