@@ -231,7 +231,7 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="bg-white/5 border-white/10 hover:border-primary/50 transition-colors">
+                <Card className="bg-indigo-950/20 border-indigo-500/10 hover:border-indigo-500/30 hover:bg-indigo-950/30 transition-colors">
                   <CardContent className="p-6">
                     <feature.icon className="w-12 h-12 text-primary mb-4" />
                     <h3 className="text-xl font-[450] tracking-tight mb-2 text-white">{feature.title}</h3>
@@ -265,7 +265,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="relative"
               >
-                <Card className="bg-white/5 border-white/10">
+                <Card className="bg-indigo-950/20 border-indigo-500/10">
                   <CardContent className="p-6">
                     <div className="text-5xl font-[450] tracking-tighter text-primary mb-4">
                       {(index + 1).toString().padStart(2, "0")}
@@ -301,9 +301,9 @@ export default function LandingPage() {
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index}>
-                  <Card className="bg-white/5 border-white/10">
+                  <Card className="bg-indigo-950/20 border-indigo-500/10">
                     <CardContent className="p-6">
-                      <p className="text-gray-400 mb-4">{testimonial.content}</p>
+                      <p className="text-white/80 mb-4">{testimonial.content}</p>
                       <div className="flex items-center">
                         <Image
                           src={testimonial.avatar || "/placeholder.svg"}
@@ -313,8 +313,8 @@ export default function LandingPage() {
                           className="rounded-full"
                         />
                         <div className="ml-3">
-                          <div className="font-semibold">{testimonial.name}</div>
-                          <div className="text-sm text-gray-400">{testimonial.title}</div>
+                          <div className="font-[450] text-white">{testimonial.name}</div>
+                          <div className="text-sm text-white/70">{testimonial.title}</div>
                         </div>
                       </div>
                     </CardContent>
@@ -331,7 +331,7 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <Card className="bg-white/[0.02] border-white/10 hover:bg-white/[0.04] transition-colors">
+          <Card className="bg-indigo-950/30 border-indigo-500/20 hover:bg-indigo-950/40 transition-colors">
             <CardContent className="p-12">
               <div className="max-w-2xl mx-auto text-center">
                 <h2 className="text-3xl md:text-5xl font-[450] tracking-tighter mb-4">Ready to Get Started?</h2>
@@ -358,10 +358,10 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible>
+            <Accordion type="single" collapsible className="space-y-2">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-white font-[450] tracking-wide">{faq.question}</AccordionTrigger>
+                <AccordionItem key={index} value={`item-${index}`} className="bg-indigo-950/20 border-indigo-500/10 rounded-lg px-4">
+                  <AccordionTrigger className="text-left text-white font-[450] tracking-wide hover:text-white/90">{faq.question}</AccordionTrigger>
                   <AccordionContent className="text-white/80 font-[350] tracking-wide">{faq.answer}</AccordionContent>
                 </AccordionItem>
               ))}
