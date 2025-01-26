@@ -188,7 +188,7 @@ export default function LandingPage() {
               <motion.div
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{
-                  duration: 30,
+                  duration: 60,
                   repeat: Infinity,
                   ease: "linear",
                 }}
