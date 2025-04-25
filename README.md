@@ -1,4 +1,4 @@
-# SmartAI - AI-Powered Smart Contract Platform
+# MintroAI - AI-Powered Smart Contract Platform
 
 A modern web application for creating and deploying smart contracts using artificial intelligence. Built with Next.js, TypeScript, and Tailwind CSS.
 

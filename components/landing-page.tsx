@@ -50,7 +50,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Brain className="w-8 h-8 text-primary" />
-            <span className="font-medium tracking-tight text-xl">SmartAI</span>
+            <span className="font-medium tracking-tight text-xl">MintroAI</span>
           </Link>
           <div className="flex items-center space-x-4">
             <nav className="hidden md:flex items-center space-x-8">
@@ -384,7 +384,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <Brain className="w-8 h-8 text-primary" />
-              <span className="font-bold text-xl">SmartAI</span>
+              <span className="font-bold text-xl">MintroAI</span>
             </div>
             <div className="flex flex-wrap justify-center gap-8">
               <Link href="#" className="text-sm text-gray-400 hover:text-primary">
@@ -402,7 +402,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mt-8 text-center text-sm text-gray-400">
-            © {new Date().getFullYear()} SmartAI. All rights reserved.
+            © {new Date().getFullYear()} MintroAI. All rights reserved.
           </div>
         </div>
       </footer>
@@ -462,7 +462,7 @@ const steps = [
 const testimonials = [
   {
     content:
-      "SmartAI has revolutionized how we create and deploy smart contracts. The AI-powered generation saves us countless hours of development time.",
+      "MintroAI has revolutionized how we create and deploy smart contracts. The AI-powered generation saves us countless hours of development time.",
     name: "Alex Thompson",
     title: "Blockchain Developer",
     avatar: "/placeholder.svg?height=80&width=80",
@@ -496,9 +496,9 @@ const blockchains = [
 
 const faqs = [
   {
-    question: "What is SmartAI?",
+    question: "What is MintroAI?",
     answer:
-      "SmartAI is an AI-powered platform that enables developers to create, deploy, and manage smart contracts efficiently. Our platform uses advanced artificial intelligence to generate secure and optimized smart contract code based on your requirements.",
+      "MintroAI is an AI-powered platform that enables developers to create, deploy, and manage smart contracts efficiently. Our platform uses advanced artificial intelligence to generate secure and optimized smart contract code based on your requirements.",
   },
   {
     question: "How does the AI smart contract generation work?",
@@ -508,7 +508,7 @@ const faqs = [
   {
     question: "Which blockchains are supported?",
     answer:
-      "SmartAI supports all major EVM-compatible blockchains including Ethereum, Arbitrum, Blast, Optimism, Base, Polygon, Avalanche, and BNB Chain. We're continuously adding support for more blockchain networks.",
+      "MintroAI supports all major EVM-compatible blockchains including Ethereum, Arbitrum, Blast, Optimism, Base, Polygon, Avalanche, and BNB Chain. We're continuously adding support for more blockchain networks.",
   },
   {
     question: "Is the generated code secure?",
