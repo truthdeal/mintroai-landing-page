@@ -10,7 +10,7 @@ import { Brain, Code2, LinkIcon, Shield, Cpu, ChevronRight, ExternalLink } from 
 import Link from "next/link"
 import Image from "next/image"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import Logo from "@/public/logo.svg";
+import Logo from "@/public/logo-small.svg";
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
