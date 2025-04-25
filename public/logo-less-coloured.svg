@@ -1,0 +1,5 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Neutral monochrome mark for dark backgrounds -->
+  <path d="M80 10 L133 40 L133 100 L80 130 L27 100 L27 40 Z" fill="none" stroke="#E5E7EB" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M45 95 V55 L80 80 L115 55 V95" stroke="#E5E7EB" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
