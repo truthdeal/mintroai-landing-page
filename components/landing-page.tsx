@@ -6,11 +6,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 //import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
-import { Brain, Code2, LinkIcon, Shield, Cpu, ChevronRight, ExternalLink } from "lucide-react"
+import { Brain, Code2, LinkIcon, Shield, Cpu, ChevronRight, ExternalLink, Sparkles, Code, FileCode } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Logo from "@/public/logo-small.svg";
+import Alex from "@/public/testimonials/alex.jpeg";
+import Sarah from "@/public/testimonials/sarah.jpeg";
+import Michael from "@/public/testimonials/michael.jpeg";
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
@@ -439,9 +442,9 @@ const features = [
     icon: Cpu,
   },
   {
-    title: "Version Control",
-    description: "Track changes and manage different versions of your smart contracts efficiently.",
-    icon: Code2,
+    title: "Conversational No-Code Builder",
+    description: "Describe what you want in natural language; MintroAI populates every field and writes the Solidity for you.",
+    icon: Sparkles,
   },
 ]
 
@@ -466,21 +469,21 @@ const testimonials = [
       "MintroAI has revolutionized how we create and deploy smart contracts. The AI-powered generation saves us countless hours of development time.",
     name: "Alex Thompson",
     title: "Blockchain Developer",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: Alex,
   },
   {
     content:
       "The security features and automated auditing give us confidence in our smart contracts. It's an essential tool for modern blockchain development.",
     name: "Sarah Chen",
     title: "CTO, DeFi Solutions",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: Sarah,
   },
   {
     content:
       "The platform's intuitive interface and powerful AI capabilities make it accessible for developers of all skill levels.",
     name: "Michael Rodriguez",
     title: "Smart Contract Engineer",
-    avatar: "/placeholder.svg?height=80&width=80",
+    avatar: Michael,
   },
 ]
 
