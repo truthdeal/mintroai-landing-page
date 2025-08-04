@@ -41,6 +41,54 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Testing
+
+### Acceptance Tests
+
+This project uses Cucumber + Playwright for acceptance testing with BDD (Behavior Driven Development) approach.
+
+#### Running Acceptance Tests
+
+```bash
+# Run all acceptance tests
+npm run test:acceptance
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests in headed mode
+npm run test:headed
+
+# Run tests in debug mode
+npm run test:debug
+```
+
+#### Test Structure
+
+```
+tests/acceptance/
+├── features/          # Gherkin feature files
+│   ├── landing_core.feature
+│   └── landing_visual_seo.feature
+├── steps/            # Step definitions
+│   └── landing.steps.ts
+└── support/          # Test hooks
+    └── hooks.ts
+```
+
+#### Writing Tests
+
+Tests are written in Gherkin syntax focusing on user behavior:
+
+```gherkin
+Feature: Landing page functionality
+
+Scenario: User can navigate to sections
+  When I navigate to "/"
+  And I click the navigation link "Features"
+  Then I should see the section "features"
+```
+
 ## Tech Stack
 
 - Next.js
@@ -48,6 +96,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Tailwind CSS
 - Framer Motion
 - Radix UI
+- Playwright (Testing)
+- Cucumber (BDD)
 
 ## License
 
