@@ -1,5 +1,3 @@
-import { describe, it, expect, jest } from '@jest/globals';
-
 describe('Simple dApp Contract Test', () => {
   const dappUrl = process.env.NEXT_PUBLIC_DAPP_URL || 'https://dapp.mintroai.com';
 

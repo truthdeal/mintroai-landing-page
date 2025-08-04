@@ -13,7 +13,9 @@
     "test:debug": "playwright test --debug",
     "test:e2e": "cucumber-js -p default",
     "test:acceptance": "cucumber-js -p default",
-    "test:contract": "jest tests/contract/simple-dapp.test.ts"
+    "test:contract": "jest tests/contract/simple-dapp.test.ts",
+    "test:unit": "jest tests/unit/",
+    "test:all": "npm run test:contract && npm run test:unit"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.2",
@@ -36,6 +38,9 @@
     "@cucumber/cucumber": "^11.3.0",
     "@playwright/test": "^1.54.2",
     "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
