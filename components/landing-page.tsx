@@ -488,7 +488,6 @@ const testimonials = [
 ]
 
 const blockchains = [
-  { name: "Ethereum", logo: "/logos/ethereum.svg" },
   { name: "Arbitrum", logo: "/logos/arbitrum.svg" },
   { name: "NEAR Protocol", logo: "/logos/near.svg" },
   { name: "BNB Chain", logo: "/logos/bnb.svg" },
