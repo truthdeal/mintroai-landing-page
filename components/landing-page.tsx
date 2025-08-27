@@ -136,9 +136,12 @@ export default function LandingPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105">
-                    View Documentation
-                  </Button>
+                  <Link href="/waitlist">
+                    <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white transform transition-all hover:scale-105">
+                      Join Waitlist
+                      <Sparkles className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
                   <Button 
                     size="lg" 
                     variant="outline" 
@@ -146,7 +149,7 @@ export default function LandingPage() {
                     onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}
                   >
                     <span className="relative z-10 group-hover:text-white transition-colors">
-                      Get Started
+                      Launch dApp
                       <ChevronRight className="ml-2 h-5 w-5 inline-block group-hover:translate-x-1 transition-transform" />
                     </span>
                     <span className="absolute inset-0 bg-primary transform translate-y-full group-hover:translate-y-0 transition-transform" />
@@ -350,10 +353,18 @@ export default function LandingPage() {
                 <p className="text-white/80 mb-8 font-[350] tracking-wide">
                   Join the future of smart contract development with AI-powered solutions.
                 </p>
-                <Button size="lg" className="bg-primary/90 hover:bg-primary font-[450] tracking-wider" onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}>
-                  Launch dApp
-                  <ExternalLink className="ml-2 h-5 w-5" />
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link href="/waitlist">
+                    <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-[450] tracking-wider">
+                      Join Waitlist
+                      <Sparkles className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Button size="lg" className="bg-primary/90 hover:bg-primary font-[450] tracking-wider" onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}>
+                    Launch dApp
+                    <ExternalLink className="ml-2 h-5 w-5" />
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
