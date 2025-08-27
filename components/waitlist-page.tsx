@@ -36,11 +36,30 @@ export default function WaitlistPage() {
       return
     }
 
-    // Simulate API call - replace with actual API endpoint
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    setSubmitted(true)
-    setIsSubmitting(false)
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.error || "Failed to join waitlist")
+        setIsSubmitting(false)
+        return
+      }
+
+      setSubmitted(true)
+      setIsSubmitting(false)
+    } catch (error) {
+      console.error("Error submitting to waitlist:", error)
+      setError("An error occurred. Please try again.")
+      setIsSubmitting(false)
+    }
   }
 
   return (
