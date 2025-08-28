@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Sparkles, Users, Bell, Zap, Shield, Brain } from "lucide-react"
+import { ArrowRight, CheckCircle, Sparkles, Users, Bell, Zap, Shield, Brain, Wallet, Twitter, Copy, Share2, Trophy, TrendingUp, Gift } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import Logo from "@/public/logo-small.svg"
@@ -12,13 +12,54 @@ import Logo from "@/public/logo-small.svg"
 export default function WaitlistPage() {
   const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState("")
+  const [walletAddress, setWalletAddress] = useState("")
+  const [twitterUsername, setTwitterUsername] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState("")
+  const [referralCode, setReferralCode] = useState<string | null>(null)
+  const [userReferralCode, setUserReferralCode] = useState<string | null>(null)
+  const [referralLink, setReferralLink] = useState<string | null>(null)
+  const [copySuccess, setCopySuccess] = useState(false)
+  const [leaderboard, setLeaderboard] = useState<any[]>([])
+  const [userStats, setUserStats] = useState<any>(null)
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    // Get referral code from URL
+    const params = new URLSearchParams(window.location.search)
+    const ref = params.get('ref')
+    if (ref) {
+      setReferralCode(ref)
+    }
+    // Fetch leaderboard
+    fetchLeaderboard()
   }, [])
+
+  const fetchLeaderboard = async () => {
+    try {
+      const response = await fetch('/api/waitlist?action=leaderboard')
+      const data = await response.json()
+      if (data.success) {
+        setLeaderboard(data.leaderboard || [])
+      }
+    } catch (error) {
+      console.error('Failed to fetch leaderboard:', error)
+    }
+  }
+
+  const fetchUserStats = async (code: string) => {
+    try {
+      const response = await fetch(`/api/waitlist?action=stats&code=${code}`)
+      const data = await response.json()
+      if (data.success) {
+        setUserStats(data.stats)
+      }
+    } catch (error) {
+      console.error('Failed to fetch user stats:', error)
+    }
+  }
 
   if (!mounted) {
     return null
@@ -42,24 +83,62 @@ export default function WaitlistPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ 
+          email,
+          walletAddress,
+          twitterUsername,
+          referralCode 
+        }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        setError(data.error || "Failed to join waitlist")
+        if (response.status === 409 && data.referralCode) {
+          // User already exists, show their referral code
+          setUserReferralCode(data.referralCode)
+          setReferralLink(`${window.location.origin}/waitlist?ref=${data.referralCode}`)
+          setSubmitted(true)
+          fetchUserStats(data.referralCode)
+        } else {
+          setError(data.error || "Failed to join waitlist")
+        }
         setIsSubmitting(false)
         return
       }
 
+      setUserReferralCode(data.referralCode)
+      setReferralLink(data.referralLink)
       setSubmitted(true)
       setIsSubmitting(false)
+      // Fetch user stats and refresh leaderboard
+      if (data.referralCode) {
+        fetchUserStats(data.referralCode)
+        fetchLeaderboard()
+      }
     } catch (error) {
       console.error("Error submitting to waitlist:", error)
       setError("An error occurred. Please try again.")
       setIsSubmitting(false)
     }
+  }
+
+  const copyToClipboard = () => {
+    if (referralLink) {
+      navigator.clipboard.writeText(referralLink)
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
+    }
+  }
+
+  const shareOnTwitter = () => {
+    const text = `🚀 Join me on the @MintroAI waitlist! Create smart contracts with AI. 
+
+Use my referral code for priority access: ${userReferralCode}
+
+`
+    const url = referralLink || ''
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank')
   }
 
   return (
@@ -82,244 +161,390 @@ export default function WaitlistPage() {
             <Image src={Logo} alt="MintroAI logo" width={30} height={30} />
             <span className="font-medium tracking-tight text-xl">MintroAI</span>
           </Link>
-          <Link href="/">
-            <Button variant="outline" className="bg-white/5 border-white/10 text-white hover:bg-white/10 font-[450] tracking-wider" size="sm">
-              Back to Home
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              className="bg-violet-500/10 border-violet-500/20 text-violet-400 hover:bg-violet-500/20" 
+              size="sm"
+              onClick={() => setShowLeaderboard(!showLeaderboard)}
+            >
+              <Trophy className="h-4 w-4 mr-1" />
+              Leaderboard
             </Button>
-          </Link>
+            <Link href="/">
+              <Button variant="outline" className="bg-white/5 border-white/10 text-white hover:bg-white/10 font-[450] tracking-wider" size="sm">
+                Back to Home
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
+
+      {/* Referral Banner if coming from referral */}
+      {referralCode && !submitted && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-40 bg-gradient-to-r from-violet-600/20 to-indigo-600/20 border-b border-violet-500/30"
+        >
+          <div className="container mx-auto px-4 py-3 text-center">
+            <span className="text-sm text-violet-300">
+              <Gift className="inline h-4 w-4 mr-1" />
+              You're joining with referral code <span className="font-bold text-violet-400">{referralCode}</span>
+            </span>
+          </div>
+        </motion.div>
+      )}
 
       {/* Main Content */}
       <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
         <div className="container max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-center lg:text-left"
-            >
+            {/* Left Column - Text Content or Leaderboard */}
+            {showLeaderboard ? (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-6"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="lg:col-span-2 max-w-4xl mx-auto w-full"
               >
-                <Sparkles className="w-4 h-4 text-violet-400" />
-                <span className="text-sm font-[450] text-violet-300">Early Access</span>
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="text-4xl md:text-6xl font-light tracking-tighter leading-tight mb-6"
-              >
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-violet-400">
-                  Be Among the First
-                </span>
-                <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
-                  to Experience AI-Powered
-                </span>
-                <br />
-                <span className="text-white">
-                  Smart Contracts
-                </span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="text-lg text-gray-400 mb-8 font-normal tracking-wide max-w-xl mx-auto lg:mx-0"
-              >
-                Join our exclusive waitlist and get early access to the future of blockchain development. 
-                Be notified when we launch and receive special benefits as an early adopter.
-              </motion.p>
-
-              {/* Stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                className="grid grid-cols-3 gap-6 mb-8 max-w-md mx-auto lg:mx-0"
-              >
-                <div className="text-center lg:text-left">
-                  <div className="text-2xl font-bold text-violet-400">2,000+</div>
-                  <div className="text-sm text-gray-500">Developers Waiting</div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-2xl font-bold text-indigo-400">Q1 2025</div>
-                  <div className="text-sm text-gray-500">Launch Date</div>
-                </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-2xl font-bold text-purple-400">50%</div>
-                  <div className="text-sm text-gray-500">Early Bird Discount</div>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Right Column - Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  {!submitted ? (
-                    <>
-                      <h2 className="text-2xl font-[450] tracking-tight mb-2">Reserve Your Spot</h2>
-                      <p className="text-gray-400 mb-6 text-sm">
-                        Enter your email to join the waitlist. No spam, ever.
-                      </p>
-
-                      <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                          <input
-                            type="email"
-                            placeholder="your@email.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
-                            required
-                          />
-                          {error && (
-                            <p className="text-red-400 text-sm mt-2">{error}</p>
-                          )}
-                        </div>
-
-                        <Button 
-                          type="submit"
-                          size="lg"
-                          className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-[450] tracking-wide group"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <span className="flex items-center justify-center">
-                              <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                              </svg>
-                              Joining...
-                            </span>
-                          ) : (
-                            <span className="flex items-center justify-center">
-                              Join Waitlist
-                              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                            </span>
-                          )}
-                        </Button>
-                      </form>
-
-                      <div className="mt-6 space-y-3">
-                        <div className="flex items-center gap-3 text-sm text-gray-400">
-                          <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                          <span>Get notified when we launch</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-sm text-gray-400">
-                          <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                          <span>Exclusive early access benefits</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-sm text-gray-400">
-                          <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                          <span>Special pricing for early adopters</span>
-                        </div>
+                <h2 className="text-3xl font-bold mb-6 text-center">🏆 Referral Leaderboard</h2>
+                <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    {leaderboard.length > 0 ? (
+                      <div className="space-y-3">
+                        {leaderboard.slice(0, 10).map((entry, index) => (
+                          <div
+                            key={entry.id}
+                            className={`flex items-center justify-between p-3 rounded-lg ${
+                              index < 3 ? 'bg-gradient-to-r from-violet-500/10 to-indigo-500/10' : 'bg-white/[0.02]'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`text-2xl font-bold ${
+                                index === 0 ? 'text-yellow-400' :
+                                index === 1 ? 'text-gray-400' :
+                                index === 2 ? 'text-orange-400' :
+                                'text-white'
+                              }`}>
+                                #{entry.rank}
+                              </div>
+                              <div>
+                                <div className="font-medium text-gray-200">{entry.display_name}</div>
+                                <div className="text-xs text-gray-500">Joined {new Date(entry.created_at).toLocaleDateString()}</div>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-lg font-bold text-violet-400">{entry.points} pts</div>
+                              <div className="text-xs text-gray-500">{entry.total_referrals} referrals</div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    </>
-                  ) : (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                      className="text-center py-8"
-                    >
-                      <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <CheckCircle className="w-8 h-8 text-green-400" />
-                      </div>
-                      <h3 className="text-2xl font-[450] tracking-tight mb-2">You're on the list!</h3>
-                      <p className="text-gray-400 mb-6">
-                        We'll notify you at <span className="text-violet-400 font-medium">{email}</span> when we launch.
-                      </p>
-                      <Button
-                        variant="outline"
-                        className="bg-white/5 border-white/10 text-white hover:bg-white/10"
-                        onClick={() => {
-                          setSubmitted(false)
-                          setEmail("")
-                        }}
-                      >
-                        Add Another Email
-                      </Button>
-                    </motion.div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Features Grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-                className="grid grid-cols-2 gap-4 mt-8"
-              >
-                {waitlistFeatures.map((feature, index) => (
-                  <div
-                    key={feature.title}
-                    className="flex items-start gap-3 p-4 bg-white/[0.02] border border-white/5 rounded-lg hover:bg-white/[0.04] transition-colors"
+                    ) : (
+                      <p className="text-center text-gray-400">No referrals yet. Be the first!</p>
+                    )}
+                  </CardContent>
+                </Card>
+                <div className="text-center mt-4">
+                  <Button
+                    variant="outline"
+                    className="bg-white/5 border-white/10"
+                    onClick={() => setShowLeaderboard(false)}
                   >
-                    <feature.icon className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-[450] text-sm text-neutral-200">{feature.title}</div>
-                      <div className="text-xs text-neutral-500 mt-0.5">{feature.description}</div>
-                    </div>
-                  </div>
-                ))}
+                    Back to Waitlist
+                  </Button>
+                </div>
               </motion.div>
-            </motion.div>
+            ) : (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7 }}
+                  className="text-center lg:text-left"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-6"
+                  >
+                    <Sparkles className="w-4 h-4 text-violet-400" />
+                    <span className="text-sm font-[450] text-violet-300">Early Access + Referral Rewards</span>
+                  </motion.div>
+
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    className="text-4xl md:text-6xl font-light tracking-tighter leading-tight mb-6"
+                  >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-violet-400">
+                      Join & Earn Rewards
+                    </span>
+                    <br />
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
+                      Share to Climb the Ranks
+                    </span>
+                  </motion.h1>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.3 }}
+                    className="text-lg text-gray-400 mb-8 font-normal tracking-wide max-w-xl mx-auto lg:mx-0"
+                  >
+                    Get early access to AI-powered smart contracts. Earn 10 points for each friend who joins with your referral code. 
+                    Top referrers get exclusive benefits!
+                  </motion.p>
+
+                  {/* Referral Benefits */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.4 }}
+                    className="grid grid-cols-3 gap-6 mb-8 max-w-md mx-auto lg:mx-0"
+                  >
+                    <div className="text-center lg:text-left">
+                      <div className="text-2xl font-bold text-violet-400">10 pts</div>
+                      <div className="text-sm text-gray-500">Per Referral</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-2xl font-bold text-indigo-400">Top 10</div>
+                      <div className="text-sm text-gray-500">Get VIP Access</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-2xl font-bold text-purple-400">∞</div>
+                      <div className="text-sm text-gray-500">Referrals</div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Right Column - Form */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                >
+                  <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm">
+                    <CardContent className="p-8">
+                      {!submitted ? (
+                        <>
+                          <h2 className="text-2xl font-[450] tracking-tight mb-2 text-gray-100">Reserve Your Spot</h2>
+                          <p className="text-gray-400 mb-4 text-sm">
+                            Join the waitlist and get your unique referral code
+                          </p>
+                          
+                          <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                              <label className="text-xs text-gray-400 block mb-1">
+                                Email * <span className="text-violet-400 font-medium ml-1">+10 pts</span>
+                              </label>
+                              <input
+                                type="email"
+                                placeholder="your@email.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
+                                required
+                              />
+                            </div>
+
+                            <div>
+                              <label className="text-xs text-gray-400 block mb-1">
+                                <Wallet className="inline h-3 w-3 mr-1" />
+                                EVM Wallet Address (Optional) <span className="text-violet-400 font-medium ml-1">+5 pts</span>
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="0x..."
+                                value={walletAddress}
+                                onChange={(e) => setWalletAddress(e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
+                              />
+                              <p className="text-xs text-gray-500 mt-1">For future airdrops and rewards</p>
+                            </div>
+
+                            <div>
+                              <label className="text-xs text-gray-400 block mb-1">
+                                <Twitter className="inline h-3 w-3 mr-1" />
+                                X (Twitter) Username (Optional) <span className="text-violet-400 font-medium ml-1">+5 pts</span>
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="@username"
+                                value={twitterUsername}
+                                onChange={(e) => setTwitterUsername(e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
+                              />
+                            </div>
+
+                            {error && (
+                              <p className="text-red-400 text-sm">{error}</p>
+                            )}
+
+                            <Button 
+                              type="submit"
+                              size="lg"
+                              className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-[450] tracking-wide group"
+                              disabled={isSubmitting}
+                            >
+                              {isSubmitting ? (
+                                <span className="flex items-center justify-center">
+                                  <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                  </svg>
+                                  Joining...
+                                </span>
+                              ) : (
+                                <span className="flex items-center justify-center">
+                                  Join Waitlist & Get Referral Code
+                                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                              )}
+                            </Button>
+                          </form>
+
+                          <div className="mt-6 space-y-3">
+                            <div className="flex items-center gap-3 text-sm text-gray-400">
+                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              <span>Earn up to 20 points instantly on signup</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm text-gray-400">
+                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              <span>Get +10 points for each friend you refer</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm text-gray-400">
+                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              <span>Top referrers get exclusive rewards</span>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.5 }}
+                          className="text-center py-4"
+                        >
+                          <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <CheckCircle className="w-8 h-8 text-green-400" />
+                          </div>
+                          <h3 className="text-2xl font-[450] tracking-tight mb-4 text-gray-100">You're on the list!</h3>
+                          
+                          {/* Referral Code Display */}
+                          <div className="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4 mb-4">
+                            <p className="text-sm text-gray-400 mb-2">Your Referral Code</p>
+                            <div className="text-3xl font-bold text-violet-400 mb-3">{userReferralCode}</div>
+                            
+                            <div className="flex gap-2 justify-center">
+                              <Button
+                                variant="outline"
+                                className="bg-white/5 border-white/10"
+                                onClick={copyToClipboard}
+                              >
+                                <Copy className="h-4 w-4 mr-1" />
+                                {copySuccess ? "Copied!" : "Copy Link"}
+                              </Button>
+                              <Button
+                                variant="outline"
+                                className="bg-white/5 border-white/10"
+                                onClick={shareOnTwitter}
+                              >
+                                <Twitter className="h-4 w-4 mr-1" />
+                                Share
+                              </Button>
+                            </div>
+                          </div>
+
+                          {/* User Stats */}
+                          {userStats && (
+                            <div className="grid grid-cols-3 gap-4 mb-4">
+                              <div className="bg-white/[0.02] rounded-lg p-3">
+                                <TrendingUp className="h-4 w-4 text-violet-400 mx-auto mb-1" />
+                                <div className="text-lg font-bold text-gray-100">{userStats.points || 0}</div>
+                                <div className="text-xs text-gray-500">Points</div>
+                              </div>
+                              <div className="bg-white/[0.02] rounded-lg p-3">
+                                <Users className="h-4 w-4 text-indigo-400 mx-auto mb-1" />
+                                <div className="text-lg font-bold text-gray-100">{userStats.totalReferrals || 0}</div>
+                                <div className="text-xs text-gray-500">Referrals</div>
+                              </div>
+                              <div className="bg-white/[0.02] rounded-lg p-3">
+                                <Trophy className="h-4 w-4 text-yellow-400 mx-auto mb-1" />
+                                <div className="text-lg font-bold text-gray-100">#{userStats.rank || '∞'}</div>
+                                <div className="text-xs text-gray-500">Rank</div>
+                              </div>
+                            </div>
+                          )}
+
+                          <p className="text-sm text-gray-400 mb-4">
+                            Share your referral link to earn points and climb the leaderboard!
+                          </p>
+
+                          <Button
+                            variant="outline"
+                            className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+                            onClick={() => {
+                              setSubmitted(false)
+                              setEmail("")
+                              setWalletAddress("")
+                              setTwitterUsername("")
+                            }}
+                          >
+                            Add Another Email
+                          </Button>
+                        </motion.div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </>
+            )}
           </div>
         </div>
       </section>
 
       {/* Bottom Section - Why Join */}
-      <section className="relative py-20 border-t border-white/10">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-normal tracking-tighter mb-4">
-              Why Join Our Waitlist?
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto font-normal tracking-wide">
-              As an early member, you'll get exclusive access to features and pricing that won't be available later
-            </p>
-          </div>
+      {!showLeaderboard && (
+        <section className="relative py-20 border-t border-white/10">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-normal tracking-tighter mb-4">
+                Referral Rewards System
+              </h2>
+              <p className="text-gray-400 max-w-2xl mx-auto font-normal tracking-wide">
+                The more friends you bring, the higher you climb. Top referrers get exclusive perks!
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-              >
-                <Card className="bg-indigo-950/20 border-indigo-500/10 hover:border-indigo-500/30 hover:bg-indigo-950/30 transition-all h-full">
-                  <CardContent className="p-6">
-                    <benefit.icon className="w-10 h-10 text-violet-400 mb-4" />
-                    <h3 className="text-lg font-[450] tracking-tight mb-2 text-neutral-200">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-neutral-400 font-[350] tracking-wide text-sm">
-                      {benefit.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {referralBenefits.map((benefit, index) => (
+                <motion.div
+                  key={benefit.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                >
+                  <Card className="bg-indigo-950/20 border-indigo-500/10 hover:border-indigo-500/30 hover:bg-indigo-950/30 transition-all h-full">
+                    <CardContent className="p-6">
+                      <benefit.icon className="w-10 h-10 text-violet-400 mb-4" />
+                      <h3 className="text-lg font-[450] tracking-tight mb-2 text-neutral-200">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-neutral-400 font-[350] tracking-wide text-sm">
+                        {benefit.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Footer */}
       <footer className="relative py-8 border-t border-white/10">
@@ -338,6 +563,24 @@ export default function WaitlistPage() {
     </div>
   )
 }
+
+const referralBenefits = [
+  {
+    title: "Earn Points",
+    description: "Get 10 points for every friend who joins with your referral code. Points unlock exclusive benefits.",
+    icon: Gift,
+  },
+  {
+    title: "Climb the Ranks",
+    description: "Top 10 referrers get VIP access, special perks, and priority support when we launch.",
+    icon: Trophy,
+  },
+  {
+    title: "Future Rewards",
+    description: "Points may be converted to platform credits, NFTs, or other rewards when we launch.",
+    icon: Sparkles,
+  },
+]
 
 const waitlistFeatures = [
   {
