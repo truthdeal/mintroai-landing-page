@@ -10,5 +10,5 @@ export interface WaitlistEntry {
   email: string
   created_at?: string
   referral_source?: string
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 }

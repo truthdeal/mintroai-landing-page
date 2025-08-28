@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Sparkles, Users, Bell, Zap, Shield, Brain, Wallet, Twitter, Copy, Share2, Trophy, TrendingUp, Gift } from "lucide-react"
+import { ArrowRight, CheckCircle, Sparkles, Users, Wallet, Copy, Trophy, TrendingUp, Gift } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import Logo from "@/public/logo-small.svg"
@@ -21,8 +21,24 @@ export default function WaitlistPage() {
   const [userReferralCode, setUserReferralCode] = useState<string | null>(null)
   const [referralLink, setReferralLink] = useState<string | null>(null)
   const [copySuccess, setCopySuccess] = useState(false)
-  const [leaderboard, setLeaderboard] = useState<any[]>([])
-  const [userStats, setUserStats] = useState<any>(null)
+  interface LeaderboardEntry {
+    id: number
+    display_name: string
+    points: number
+    total_referrals: number
+    referral_code: string
+    created_at: string
+    rank: number
+  }
+
+  interface UserStats {
+    points: number
+    totalReferrals: number
+    rank: number | null
+  }
+
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([])
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
 
   useEffect(() => {
@@ -190,7 +206,7 @@ Use my referral code for priority access: ${userReferralCode}
           <div className="container mx-auto px-4 py-3 text-center">
             <span className="text-sm text-violet-300">
               <Gift className="inline h-4 w-4 mr-1" />
-              You're joining with referral code <span className="font-bold text-violet-400">{referralCode}</span>
+              You&apos;re joining with referral code <span className="font-bold text-violet-400">{referralCode}</span>
             </span>
           </div>
         </motion.div>
@@ -368,8 +384,7 @@ Use my referral code for priority access: ${userReferralCode}
 
                             <div>
                               <label className="text-xs text-gray-400 block mb-1">
-                                <Twitter className="inline h-3 w-3 mr-1" />
-                                X (Twitter) Username (Optional) <span className="text-violet-400 font-medium ml-1">+5 pts</span>
+                                𝕏 X (Twitter) Username (Optional) <span className="text-violet-400 font-medium ml-1">+5 pts</span>
                               </label>
                               <input
                                 type="text"
@@ -432,7 +447,7 @@ Use my referral code for priority access: ${userReferralCode}
                           <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <CheckCircle className="w-8 h-8 text-green-400" />
                           </div>
-                          <h3 className="text-2xl font-[450] tracking-tight mb-4 text-gray-100">You're on the list!</h3>
+                          <h3 className="text-2xl font-[450] tracking-tight mb-4 text-gray-100">You&apos;re on the list!</h3>
                           
                           {/* Referral Code Display */}
                           <div className="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4 mb-4">
@@ -453,8 +468,8 @@ Use my referral code for priority access: ${userReferralCode}
                                 className="bg-white/5 border-white/10"
                                 onClick={shareOnTwitter}
                               >
-                                <Twitter className="h-4 w-4 mr-1" />
-                                Share
+                                𝕏
+                                <span className="ml-1">Share</span>
                               </Button>
                             </div>
                           </div>
@@ -582,43 +597,3 @@ const referralBenefits = [
   },
 ]
 
-const waitlistFeatures = [
-  {
-    title: "Priority Access",
-    description: "Be first to try",
-    icon: Zap,
-  },
-  {
-    title: "Lifetime Discount",
-    description: "50% off forever",
-    icon: Shield,
-  },
-  {
-    title: "Beta Features",
-    description: "Test new tools",
-    icon: Brain,
-  },
-  {
-    title: "Direct Support",
-    description: "Priority help",
-    icon: Users,
-  },
-]
-
-const benefits = [
-  {
-    title: "Early Bird Pricing",
-    description: "Lock in discounted rates that will never increase for your account, saving thousands annually.",
-    icon: Bell,
-  },
-  {
-    title: "Shape the Product",
-    description: "Your feedback will directly influence features and improvements. Be part of building the future.",
-    icon: Users,
-  },
-  {
-    title: "Exclusive Community",
-    description: "Join a select group of innovators and get access to private workshops and networking events.",
-    icon: Sparkles,
-  },
-]
