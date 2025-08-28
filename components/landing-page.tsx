@@ -137,7 +137,7 @@ export default function LandingPage() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
                   <Link href="/waitlist">
-                    <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white transform transition-all hover:scale-105">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105">
                       Join Waitlist
                       <Sparkles className="ml-2 h-5 w-5" />
                     </Button>
@@ -355,12 +355,12 @@ export default function LandingPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link href="/waitlist">
-                    <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-[450] tracking-wider">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105">
                       Join Waitlist
                       <Sparkles className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
-                  <Button size="lg" className="bg-primary/90 hover:bg-primary font-[450] tracking-wider" onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}>
+                  <Button size="lg" className="bg-primary/90 hover:bg-primary/90 transform transition-all hover:scale-105" onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}>
                     Launch dApp
                     <ExternalLink className="ml-2 h-5 w-5" />
                   </Button>
