@@ -55,17 +55,49 @@ export async function POST(request: NextRequest) {
     const cleanTwitter = twitterUsername ? twitterUsername.replace('@', '') : null
 
     // Check if email already exists
-    const { data: existingEntry } = await supabase
+    const { data: existingEmail } = await supabase
       .from('waitlist')
       .select('*')
       .eq('email', email.toLowerCase())
       .single()
 
-    if (existingEntry) {
+    if (existingEmail) {
       return NextResponse.json({
         error: 'This email is already on the waitlist',
-        referralCode: existingEntry.referral_code
+        referralCode: existingEmail.referral_code
       }, { status: 409 })
+    }
+
+    // Check if wallet address already exists (if provided)
+    if (walletAddress) {
+      const { data: existingWallet } = await supabase
+        .from('waitlist')
+        .select('*')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .single()
+
+      if (existingWallet) {
+        return NextResponse.json({
+          error: 'This wallet address is already registered',
+          field: 'walletAddress'
+        }, { status: 409 })
+      }
+    }
+
+    // Check if Twitter username already exists (if provided)
+    if (cleanTwitter) {
+      const { data: existingTwitter } = await supabase
+        .from('waitlist')
+        .select('*')
+        .eq('twitter_username', cleanTwitter.toLowerCase())
+        .single()
+
+      if (existingTwitter) {
+        return NextResponse.json({
+          error: 'This Twitter/X username is already registered',
+          field: 'twitterUsername'
+        }, { status: 409 })
+      }
     }
 
     // Generate unique referral code for new user
@@ -99,7 +131,7 @@ export async function POST(request: NextRequest) {
         {
           email: email.toLowerCase(),
           wallet_address: walletAddress?.toLowerCase() || null,
-          twitter_username: cleanTwitter,
+          twitter_username: cleanTwitter?.toLowerCase() || null,
           referral_code: newReferralCode,
           referred_by: referralCode || null,
           points: initialPoints,

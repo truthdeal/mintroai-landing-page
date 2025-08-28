@@ -6,8 +6,8 @@
 CREATE TABLE IF NOT EXISTS waitlist (
   id SERIAL PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
-  wallet_address TEXT,
-  twitter_username TEXT,
+  wallet_address TEXT UNIQUE,
+  twitter_username TEXT UNIQUE,
   referral_code TEXT UNIQUE NOT NULL,
   referred_by TEXT, -- referral code of the referrer
   points INTEGER DEFAULT 0,

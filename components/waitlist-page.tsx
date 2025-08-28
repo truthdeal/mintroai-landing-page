@@ -110,12 +110,24 @@ export default function WaitlistPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        if (response.status === 409 && data.referralCode) {
-          // User already exists, show their referral code
-          setUserReferralCode(data.referralCode)
-          setReferralLink(`${window.location.origin}/waitlist?ref=${data.referralCode}`)
-          setSubmitted(true)
-          fetchUserStats(data.referralCode)
+        if (response.status === 409) {
+          if (data.referralCode) {
+            // Email already exists, show their referral code
+            setUserReferralCode(data.referralCode)
+            setReferralLink(`${window.location.origin}/waitlist?ref=${data.referralCode}`)
+            setSubmitted(true)
+            fetchUserStats(data.referralCode)
+          } else if (data.field === 'walletAddress') {
+            setError("This wallet address is already registered with another account")
+            // Clear the wallet field
+            setWalletAddress("")
+          } else if (data.field === 'twitterUsername') {
+            setError("This Twitter/X username is already registered with another account")
+            // Clear the Twitter field
+            setTwitterUsername("")
+          } else {
+            setError(data.error || "Failed to join waitlist")
+          }
         } else {
           setError(data.error || "Failed to join waitlist")
         }
@@ -379,7 +391,7 @@ Use my referral code for priority access: ${userReferralCode}
                                 onChange={(e) => setWalletAddress(e.target.value)}
                                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
                               />
-                              <p className="text-xs text-gray-500 mt-1">For future airdrops and rewards</p>
+                              <p className="text-xs text-gray-500 mt-1">For future airdrops and rewards • Must be unique</p>
                             </div>
 
                             <div>
@@ -393,6 +405,7 @@ Use my referral code for priority access: ${userReferralCode}
                                 onChange={(e) => setTwitterUsername(e.target.value)}
                                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
                               />
+                              <p className="text-xs text-gray-500 mt-1">Must be unique • Link your X account</p>
                             </div>
 
                             {error && (
