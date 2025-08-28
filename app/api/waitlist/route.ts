@@ -289,6 +289,56 @@ export async function GET(request: NextRequest) {
       })
     }
 
+    // Search user by email
+    if (action === 'search') {
+      const email = searchParams.get('email')
+      
+      if (!email || !email.includes('@')) {
+        return NextResponse.json(
+          { error: 'Valid email required' },
+          { status: 400 }
+        )
+      }
+
+      const { data, error } = await supabase
+        .from('waitlist')
+        .select('email, points, total_referrals, referral_code, created_at')
+        .eq('email', email.toLowerCase())
+        .single()
+
+      if (error || !data) {
+        return NextResponse.json(
+          { error: 'Email not found in waitlist' },
+          { status: 404 }
+        )
+      }
+
+      // Get rank from leaderboard view
+      const { data: leaderboardEntry } = await supabase
+        .from('leaderboard')
+        .select('rank')
+        .eq('referral_code', data.referral_code)
+        .single()
+
+      // Get total users for position
+      const { count: totalUsers } = await supabase
+        .from('waitlist')
+        .select('*', { count: 'exact', head: true })
+
+      return NextResponse.json({
+        success: true,
+        user: {
+          email: data.email,
+          points: data.points,
+          totalReferrals: data.total_referrals,
+          referralCode: data.referral_code,
+          rank: leaderboardEntry?.rank || null,
+          position: totalUsers || 0,
+          joinedDate: data.created_at
+        }
+      })
+    }
+
     // Protected admin endpoint
     const authHeader = request.headers.get('authorization')
     

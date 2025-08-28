@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Sparkles, Users, Wallet, Copy, Trophy, TrendingUp, Gift } from "lucide-react"
+import { ArrowRight, CheckCircle, Sparkles, Users, Wallet, Copy, Trophy, TrendingUp, Gift, Search, Mail } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import Logo from "@/public/logo-small.svg"
@@ -40,6 +40,20 @@ export default function WaitlistPage() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([])
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [searchEmail, setSearchEmail] = useState("")
+  interface SearchResultUser {
+    email: string
+    points: number
+    totalReferrals: number
+    referralCode: string
+    rank: number | null
+    position: number
+    joinedDate: string
+  }
+
+  const [searchResult, setSearchResult] = useState<SearchResultUser | null>(null)
+  const [isSearching, setIsSearching] = useState(false)
+  const [searchError, setSearchError] = useState("")
 
   useEffect(() => {
     setMounted(true)
@@ -74,6 +88,33 @@ export default function WaitlistPage() {
       }
     } catch (error) {
       console.error('Failed to fetch user stats:', error)
+    }
+  }
+
+  const searchUserByEmail = async () => {
+    if (!searchEmail || !searchEmail.includes('@')) {
+      setSearchError("Please enter a valid email address")
+      return
+    }
+
+    setIsSearching(true)
+    setSearchError("")
+    setSearchResult(null)
+
+    try {
+      const response = await fetch(`/api/waitlist?action=search&email=${encodeURIComponent(searchEmail)}`)
+      const data = await response.json()
+      
+      if (data.success) {
+        setSearchResult(data.user)
+      } else {
+        setSearchError(data.error || "Email not found in waitlist")
+      }
+    } catch (error) {
+      console.error('Search failed:', error)
+      setSearchError("Failed to search. Please try again.")
+    } finally {
+      setIsSearching(false)
     }
   }
 
@@ -194,7 +235,13 @@ Use my referral code for priority access: ${userReferralCode}
               variant="outline" 
               className="bg-violet-500/10 border-violet-500/20 text-violet-400 hover:bg-violet-500/20" 
               size="sm"
-              onClick={() => setShowLeaderboard(!showLeaderboard)}
+              onClick={() => {
+                setShowLeaderboard(!showLeaderboard)
+                // Clear search when toggling
+                setSearchEmail("")
+                setSearchResult(null)
+                setSearchError("")
+              }}
             >
               <Trophy className="h-4 w-4 mr-1" />
               Leaderboard
@@ -237,8 +284,99 @@ Use my referral code for priority access: ${userReferralCode}
                 className="lg:col-span-2 max-w-4xl mx-auto w-full"
               >
                 <h2 className="text-3xl font-bold mb-6 text-center">🏆 Referral Leaderboard</h2>
+                
+                {/* Search Bar */}
+                <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm mb-4">
+                  <CardContent className="p-4">
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex-1 relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <input
+                          type="email"
+                          placeholder="Search by your email address..."
+                          value={searchEmail}
+                          onChange={(e) => setSearchEmail(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && searchUserByEmail()}
+                          className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
+                        />
+                      </div>
+                      <Button
+                        onClick={searchUserByEmail}
+                        disabled={isSearching}
+                        className="bg-violet-600 hover:bg-violet-500 text-white"
+                      >
+                        {isSearching ? (
+                          <span className="flex items-center">
+                            <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Searching...
+                          </span>
+                        ) : (
+                          <span className="flex items-center">
+                            <Search className="h-4 w-4 mr-1" />
+                            Search
+                          </span>
+                        )}
+                      </Button>
+                    </div>
+                    
+                    {/* Search Error */}
+                    {searchError && (
+                      <p className="text-red-400 text-sm mt-3">{searchError}</p>
+                    )}
+                    
+                    {/* Search Result */}
+                    {searchResult && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-4 p-4 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 rounded-lg border border-violet-500/20"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <p className="text-sm text-gray-400 mb-1">Your Stats</p>
+                            <p className="font-medium text-white mb-2">{searchResult.email}</p>
+                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                              <div>
+                                <p className="text-2xl font-bold text-violet-400">{searchResult.points}</p>
+                                <p className="text-xs text-gray-500">Points</p>
+                              </div>
+                              <div>
+                                <p className="text-2xl font-bold text-indigo-400">{searchResult.totalReferrals}</p>
+                                <p className="text-xs text-gray-500">Referrals</p>
+                              </div>
+                              <div>
+                                <p className="text-2xl font-bold text-yellow-400">
+                                  {searchResult.rank ? `#${searchResult.rank}` : '—'}
+                                </p>
+                                <p className="text-xs text-gray-500">Rank</p>
+                              </div>
+                              <div className="hidden sm:block">
+                                <p className="text-lg font-bold text-purple-400">{searchResult.referralCode}</p>
+                                <p className="text-xs text-gray-500">Your Code</p>
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setSearchResult(null)
+                              setSearchEmail("")
+                            }}
+                            className="text-gray-400 hover:text-white ml-4"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </CardContent>
+                </Card>
+
                 <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm">
                   <CardContent className="p-6">
+                    <h3 className="text-lg font-medium mb-4 text-gray-300">Top 10 Referrers</h3>
                     {leaderboard.length > 0 ? (
                       <div className="space-y-3">
                         {leaderboard.slice(0, 10).map((entry, index) => (
@@ -278,7 +416,13 @@ Use my referral code for priority access: ${userReferralCode}
                   <Button
                     variant="outline"
                     className="bg-white/5 border-white/10"
-                    onClick={() => setShowLeaderboard(false)}
+                    onClick={() => {
+                      setShowLeaderboard(false)
+                      // Clear search when going back
+                      setSearchEmail("")
+                      setSearchResult(null)
+                      setSearchError("")
+                    }}
                   >
                     Back to Waitlist
                   </Button>
@@ -391,7 +535,7 @@ Use my referral code for priority access: ${userReferralCode}
                                 onChange={(e) => setWalletAddress(e.target.value)}
                                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
                               />
-                              <p className="text-xs text-gray-500 mt-1">For future airdrops and rewards • Must be unique</p>
+                              <p className="text-xs text-gray-500 mt-1">For future airdrops and rewards</p>
                             </div>
 
                             <div>
@@ -405,7 +549,7 @@ Use my referral code for priority access: ${userReferralCode}
                                 onChange={(e) => setTwitterUsername(e.target.value)}
                                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
                               />
-                              <p className="text-xs text-gray-500 mt-1">Must be unique • Link your X account</p>
+                              <p className="text-xs text-gray-500 mt-1">Link your X account</p>
                             </div>
 
                             {error && (
