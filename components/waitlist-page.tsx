@@ -201,7 +201,7 @@ export default function WaitlistPage() {
   }
 
   const shareOnTwitter = () => {
-    const text = `🚀 Join me on the @MintroAI waitlist! Create smart contracts with AI. 
+    const text = `🚀 Join me on the @MintroAI waitlist! All in one Web3 Hub AI agent. 
 
 Use my referral code for priority access: ${userReferralCode}
 
