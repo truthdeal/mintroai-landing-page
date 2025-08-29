@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
       message: 'Successfully added to waitlist',
       position: count || 0,
       referralCode: newReferralCode,
-      referralLink: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/waitlist?ref=${newReferralCode}`,
+      referralLink: `${process.env.NEXT_PUBLIC_APP_URL || `${request.nextUrl.protocol}//${request.nextUrl.host}`}/waitlist?ref=${newReferralCode}`,
       data: {
         email: data.email,
         referralCode: newReferralCode,
