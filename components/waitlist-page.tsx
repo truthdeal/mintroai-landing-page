@@ -266,6 +266,7 @@ Use my referral code for priority access: ${userReferralCode}
             <span className="text-sm text-violet-300">
               <Gift className="inline h-4 w-4 mr-1" />
               You&apos;re joining with referral code <span className="font-bold text-violet-400">{referralCode}</span>
+              <span className="text-yellow-400 ml-2 font-medium">+100 bonus points!</span>
             </span>
           </div>
         </motion.div>

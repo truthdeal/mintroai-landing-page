@@ -123,6 +123,7 @@ export async function POST(request: NextRequest) {
     let initialPoints = 100 // Base points for email
     if (walletAddress) initialPoints += 150 // Bonus for wallet
     if (twitterUsername) initialPoints += 150 // Bonus for Twitter
+    if (referralCode) initialPoints += 100 // Bonus for using referral code
 
     // Add to waitlist with referral tracking
     const { data, error } = await supabase
@@ -144,7 +145,8 @@ export async function POST(request: NextRequest) {
             initial_points_breakdown: {
               email: 100,
               wallet: walletAddress ? 150 : 0,
-              twitter: twitterUsername ? 150 : 0
+              twitter: twitterUsername ? 150 : 0,
+              referral_bonus: referralCode ? 100 : 0
             }
           }
         }
