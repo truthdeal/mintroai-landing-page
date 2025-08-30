@@ -272,9 +272,9 @@ Use my referral code for priority access: ${userReferralCode}
       )}
 
       {/* Main Content */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
+      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-2 sm:px-4">
         <div className="container max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             {/* Left Column - Text Content or Leaderboard */}
             {showLeaderboard ? (
               <motion.div
@@ -450,7 +450,7 @@ Use my referral code for priority access: ${userReferralCode}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.2 }}
-                    className="text-4xl md:text-6xl font-light tracking-tighter leading-tight mb-6"
+                    className="text-3xl sm:text-4xl md:text-6xl font-light tracking-tighter leading-tight mb-6 text-center lg:text-left"
                   >
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-violet-400">
                       Join & Earn Rewards
@@ -465,7 +465,7 @@ Use my referral code for priority access: ${userReferralCode}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.3 }}
-                    className="text-lg text-gray-400 mb-8 font-normal tracking-wide max-w-xl mx-auto lg:mx-0"
+                    className="text-base sm:text-lg text-gray-400 mb-6 sm:mb-8 font-normal tracking-wide text-center lg:text-left px-2 sm:px-0"
                   >
                     Get early access to future ecosystem features. Earn 10 points for each friend who joins with your referral code. 
                     Early users will unlock exclusive airdrops and rewards!
@@ -476,19 +476,19 @@ Use my referral code for priority access: ${userReferralCode}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.4 }}
-                    className="grid grid-cols-3 gap-6 mb-8 max-w-md mx-auto lg:mx-0"
+                    className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 mb-6 sm:mb-8"
                   >
-                    <div className="text-center lg:text-left">
-                      <div className="text-2xl font-bold text-violet-400">10 pts</div>
-                      <div className="text-sm text-gray-500">Per Referral</div>
+                    <div className="text-center">
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-violet-400">10 pts</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-gray-500">Per Referral</div>
                     </div>
-                    <div className="text-center lg:text-left">
-                      <div className="text-2xl font-bold text-indigo-400">Rewards</div>
-                      <div className="text-sm text-gray-500">Exclusive Rewards</div>
+                    <div className="text-center">
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-indigo-400">Rewards</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-gray-500">Exclusive<span className="hidden sm:inline"> Rewards</span></div>
                     </div>
-                    <div className="text-center lg:text-left">
-                      <div className="text-2xl font-bold text-purple-400">∞</div>
-                      <div className="text-sm text-gray-500">Referrals</div>
+                    <div className="text-center">
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-400">∞</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-gray-500">Referrals</div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -499,8 +499,8 @@ Use my referral code for priority access: ${userReferralCode}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: 0.3 }}
                 >
-                  <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm">
-                    <CardContent className="p-8">
+                  <Card className="bg-white/[0.02] border-white/10 backdrop-blur-sm mx-2 sm:mx-0">
+                    <CardContent className="p-4 sm:p-6 md:p-8">
                       {!submitted ? (
                         <>
                           <h2 className="text-2xl font-[450] tracking-tight mb-2 text-gray-100">Get Early Access</h2>
