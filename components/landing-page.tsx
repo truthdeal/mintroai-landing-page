@@ -136,8 +136,8 @@ export default function LandingPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
-                  <Link href="/waitlist">
-                    <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105 font-bold">
+                  <Link href="/waitlist" className="w-full sm:w-auto">
+                    <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90 transform transition-all hover:scale-105 font-bold">
                       Join Waitlist
                       <Sparkles className="ml-2 h-5 w-5" />
                     </Button>
@@ -145,7 +145,7 @@ export default function LandingPage() {
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="bg-white hover:bg-white/90 text-black border-white group relative overflow-hidden"
+                    className="w-full sm:w-auto bg-white hover:bg-white/90 text-black border-white group relative overflow-hidden"
                     onClick={() => window.open(process.env.NEXT_PUBLIC_DAPP_URL, '_blank')}
                   >
                     <span className="relative z-10 group-hover:text-white transition-colors">
