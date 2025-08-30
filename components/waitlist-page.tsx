@@ -443,7 +443,7 @@ Use my referral code for priority access: ${userReferralCode}
                     className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-6"
                   >
                     <Sparkles className="w-4 h-4 text-violet-400" />
-                    <span className="text-sm font-[450] text-violet-300">Early Access + Referral Rewards</span>
+                    <span className="text-sm font-[450] text-violet-300">Early Access + Rewards</span>
                   </motion.div>
 
                   <motion.h1
@@ -457,7 +457,7 @@ Use my referral code for priority access: ${userReferralCode}
                     </span>
                     <br />
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
-                      Share to Climb the Ranks
+                      Refer to Climb the Ranks
                     </span>
                   </motion.h1>
 
@@ -467,8 +467,8 @@ Use my referral code for priority access: ${userReferralCode}
                     transition={{ duration: 0.7, delay: 0.3 }}
                     className="text-lg text-gray-400 mb-8 font-normal tracking-wide max-w-xl mx-auto lg:mx-0"
                   >
-                    Get early access to AI-powered smart contracts. Earn 10 points for each friend who joins with your referral code. 
-                    Top referrers get exclusive benefits!
+                    Get early access to future ecosystem features. Earn 10 points for each friend who joins with your referral code. 
+                    Early users will unlock exclusive airdrops and rewards!
                   </motion.p>
 
                   {/* Referral Benefits */}
@@ -483,8 +483,8 @@ Use my referral code for priority access: ${userReferralCode}
                       <div className="text-sm text-gray-500">Per Referral</div>
                     </div>
                     <div className="text-center lg:text-left">
-                      <div className="text-2xl font-bold text-indigo-400">Top 10</div>
-                      <div className="text-sm text-gray-500">Get VIP Access</div>
+                      <div className="text-2xl font-bold text-indigo-400">Rewards</div>
+                      <div className="text-sm text-gray-500">Exclusive Rewards</div>
                     </div>
                     <div className="text-center lg:text-left">
                       <div className="text-2xl font-bold text-purple-400">∞</div>
@@ -503,7 +503,7 @@ Use my referral code for priority access: ${userReferralCode}
                     <CardContent className="p-8">
                       {!submitted ? (
                         <>
-                          <h2 className="text-2xl font-[450] tracking-tight mb-2 text-gray-100">Reserve Your Spot</h2>
+                          <h2 className="text-2xl font-[450] tracking-tight mb-2 text-gray-100">Get Early Access</h2>
                           <p className="text-gray-400 mb-4 text-sm">
                             Join the waitlist and get your unique referral code
                           </p>
@@ -549,7 +549,18 @@ Use my referral code for priority access: ${userReferralCode}
                                 onChange={(e) => setTwitterUsername(e.target.value)}
                                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all"
                               />
-                              <p className="text-xs text-gray-500 mt-1">Link your X account</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                Make sure that you are{' '}
+                                <a 
+                                  href="https://x.com/MintroAI" 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-violet-400 hover:text-violet-300 underline"
+                                >
+                                  following us on X
+                                </a>
+                                !
+                              </p>
                             </div>
 
                             {error && (
@@ -590,7 +601,7 @@ Use my referral code for priority access: ${userReferralCode}
                             </div>
                             <div className="flex items-center gap-3 text-sm text-gray-400">
                               <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span>Top referrers get exclusive rewards</span>
+                              <span>Top leaderboard users get extra rewards</span>
                             </div>
                           </div>
                         </>
@@ -739,17 +750,17 @@ Use my referral code for priority access: ${userReferralCode}
 const referralBenefits = [
   {
     title: "Earn Points",
-    description: "Get 10 points for every friend who joins with your referral code. Points unlock exclusive benefits.",
+    description: "By joining waitlist get 100 points. Both you and your friend get 100 points when they join with your referral code.",
     icon: Gift,
   },
   {
     title: "Climb the Ranks",
-    description: "Top 10 referrers get VIP access, special perks, and priority support when we launch.",
+    description: "Top leaderboard users get extra benefits, bonuses, and priority access.",
     icon: Trophy,
   },
   {
     title: "Future Rewards",
-    description: "Points may be converted to platform credits, NFTs, or other rewards when we launch.",
+    description: "Points may be converted to platform credits, NFTs, or Tokens.",
     icon: Sparkles,
   },
 ]

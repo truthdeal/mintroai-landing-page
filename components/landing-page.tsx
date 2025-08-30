@@ -137,7 +137,7 @@ export default function LandingPage() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
                   <Link href="/waitlist">
-                    <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105 font-bold">
                       Join Waitlist
                       <Sparkles className="ml-2 h-5 w-5" />
                     </Button>
@@ -355,7 +355,7 @@ export default function LandingPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link href="/waitlist">
-                    <Button size="lg" className="bg-primary hover:bg-primary/90 transform transition-all hover:scale-105">
+                    <Button size="lg" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 transform transition-all hover:scale-105 shadow-lg hover:shadow-violet-500/25">
                       Join Waitlist
                       <Sparkles className="ml-2 h-5 w-5" />
                     </Button>
