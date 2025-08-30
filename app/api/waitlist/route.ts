@@ -120,9 +120,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate initial points based on provided information
-    let initialPoints = 10 // Base points for joining
-    if (walletAddress) initialPoints += 5 // Bonus for wallet
-    if (twitterUsername) initialPoints += 5 // Bonus for Twitter
+    let initialPoints = 100 // Base points for email
+    if (walletAddress) initialPoints += 150 // Bonus for wallet
+    if (twitterUsername) initialPoints += 150 // Bonus for Twitter
 
     // Add to waitlist with referral tracking
     const { data, error } = await supabase
@@ -142,9 +142,9 @@ export async function POST(request: NextRequest) {
             ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
             source: request.headers.get('referer') || 'direct',
             initial_points_breakdown: {
-              base: 10,
-              wallet: walletAddress ? 5 : 0,
-              twitter: twitterUsername ? 5 : 0
+              email: 100,
+              wallet: walletAddress ? 150 : 0,
+              twitter: twitterUsername ? 150 : 0
             }
           }
         }
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
         await supabase
           .from('waitlist')
           .update({
-            points: referrer.points + 10,
+            points: referrer.points + 100,
             total_referrals: referrer.total_referrals + 1,
             updated_at: new Date().toISOString()
           })
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
             referrer_id: referrer.id,
             referee_id: data.id,
             referrer_code: referralCode,
-            points_awarded: 10,
+            points_awarded: 100,
             event_type: 'signup'
           })
       }

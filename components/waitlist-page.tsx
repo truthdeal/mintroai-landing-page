@@ -467,7 +467,7 @@ Use my referral code for priority access: ${userReferralCode}
                     transition={{ duration: 0.7, delay: 0.3 }}
                     className="text-sm min-[435px]:text-base sm:text-lg text-gray-400 mb-6 sm:mb-8 font-normal tracking-wide text-center lg:text-left px-4 min-[435px]:px-2 sm:px-0"
                   >
-                    Get early access to future ecosystem features. Earn 10 points for each friend who joins with your referral code. 
+                    Get early access to future ecosystem features. Earn 100 points for each friend who joins with your referral code. 
                     Early users will unlock exclusive airdrops and rewards!
                   </motion.p>
 
@@ -479,7 +479,7 @@ Use my referral code for priority access: ${userReferralCode}
                     className="grid grid-cols-3 gap-1 min-[435px]:gap-2 sm:gap-4 md:gap-6 mb-6 sm:mb-8 px-2 min-[435px]:px-0"
                   >
                     <div className="text-center">
-                      <div className="text-base min-[435px]:text-lg sm:text-xl md:text-2xl font-bold text-violet-400">10 pts</div>
+                      <div className="text-base min-[435px]:text-lg sm:text-xl md:text-2xl font-bold text-violet-400">100 pts</div>
                       <div className="text-[9px] min-[435px]:text-[10px] sm:text-xs md:text-sm text-gray-500">Per Referral</div>
                     </div>
                     <div className="text-center">
@@ -511,7 +511,7 @@ Use my referral code for priority access: ${userReferralCode}
                           <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                               <label className="text-xs text-gray-400 block mb-1">
-                                Email * <span className="text-violet-400 font-medium ml-1">+10 pts</span>
+                                Email * <span className="text-violet-400 font-medium ml-1">+100 pts</span>
                               </label>
                               <input
                                 type="email"
@@ -526,7 +526,7 @@ Use my referral code for priority access: ${userReferralCode}
                             <div>
                               <label className="text-xs text-gray-400 block mb-1">
                                 <Wallet className="inline h-3 w-3 mr-1" />
-                                EVM Wallet Address (Optional) <span className="text-violet-400 font-medium ml-1">+5 pts</span>
+                                EVM Wallet Address (Optional) <span className="text-violet-400 font-medium ml-1">+150 pts</span>
                               </label>
                               <input
                                 type="text"
@@ -540,7 +540,7 @@ Use my referral code for priority access: ${userReferralCode}
 
                             <div>
                               <label className="text-xs text-gray-400 block mb-1">
-                                𝕏 X (Twitter) Username (Optional) <span className="text-violet-400 font-medium ml-1">+5 pts</span>
+                                𝕏 X (Twitter) Username (Optional) <span className="text-violet-400 font-medium ml-1">+150 pts</span>
                               </label>
                               <input
                                 type="text"
@@ -593,11 +593,11 @@ Use my referral code for priority access: ${userReferralCode}
                           <div className="mt-6 space-y-3">
                             <div className="flex items-center gap-3 text-sm text-gray-400">
                               <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span>Earn up to 20 points instantly on signup</span>
+                              <span>Earn up to 500 points instantly on signup</span>
                             </div>
                             <div className="flex items-center gap-3 text-sm text-gray-400">
                               <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span>Get +10 points for each friend you refer</span>
+                              <span>Get +100 points for each friend you refer</span>
                             </div>
                             <div className="flex items-center gap-3 text-sm text-gray-400">
                               <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
