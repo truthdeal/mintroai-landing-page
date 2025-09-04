@@ -411,7 +411,7 @@ export default function LandingPage() {
               <Link href="#" className="text-sm text-gray-400 hover:text-primary">
                 Documentation
               </Link>
-              <Link href="#" className="text-sm text-gray-400 hover:text-primary">
+              <Link href="mailto:contact@mintro.ai" className="text-sm text-gray-400 hover:text-primary">
                 Contact
               </Link>
             </div>
