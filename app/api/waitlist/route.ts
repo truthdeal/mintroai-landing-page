@@ -1,6 +1,64 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
+// Rate limiting store
+const rateLimit = new Map<string, number[]>()
+
+setInterval(() => {
+  const now = Date.now()
+  const windowMs = 60 * 60 * 1000 // 1 hour
+  
+  rateLimit.forEach((timestamps, key) => {
+    const validTimestamps = timestamps.filter((t: number) => now - t < windowMs)
+    if (validTimestamps.length === 0) {
+      rateLimit.delete(key)
+    } else {
+      rateLimit.set(key, validTimestamps)
+    }
+  })
+}, 5 * 60 * 1000) // 5 min cache
+
+
+function checkRateLimit(identifier: string, limits: { windowMs: number, max: number }[]): { 
+  allowed: boolean, 
+  retryAfter?: number,
+  limit?: number,
+  remaining?: number 
+} {
+  const now = Date.now()
+  const timestamps = rateLimit.get(identifier) || []
+  
+  for (const { windowMs, max } of limits) {
+    const windowStart = now - windowMs
+    const recentRequests = timestamps.filter(t => t > windowStart)
+    
+    if (recentRequests.length >= max) {
+      const oldestInWindow = Math.min(...recentRequests)
+      const retryAfter = Math.ceil((oldestInWindow + windowMs - now) / 1000)
+      
+      return { 
+        allowed: false, 
+        retryAfter,
+        limit: max,
+        remaining: 0
+      }
+    }
+  }
+  
+  timestamps.push(now)
+  rateLimit.set(identifier, timestamps)
+  
+  const strictestLimit = limits[limits.length - 1]
+  const windowStart = now - strictestLimit.windowMs
+  const recentRequests = timestamps.filter(t => t > windowStart)
+  
+  return { 
+    allowed: true,
+    limit: strictestLimit.max,
+    remaining: strictestLimit.max - recentRequests.length
+  }
+}
+
 // Validate Ethereum address
 function isValidEthereumAddress(address: string): boolean {
   return /^0x[a-fA-F0-9]{40}$/.test(address)
@@ -25,13 +83,66 @@ function generateReferralCode(): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Get IP address for rate limiting
+    const forwardedFor = request.headers.get('x-forwarded-for')
+    const realIp = request.headers.get('x-real-ip')
+    const ip = forwardedFor?.split(',')[0] || realIp || 'unknown'
+    
+    // Check rate limits: 
+    // - 3 requests per minute
+    // - 10 requests per hour
+    // - 50 requests per day
+    const rateLimitResult = checkRateLimit(ip, [
+      { windowMs: 60 * 1000, max: 3 },           // 1 minute
+      { windowMs: 60 * 60 * 1000, max: 10 },     // 1 hour
+      { windowMs: 24 * 60 * 60 * 1000, max: 50 } // 1 day
+    ])
+    
+    // Add rate limit headers
+    const headers = new Headers({
+      'X-RateLimit-Limit': String(rateLimitResult.limit || 3),
+      'X-RateLimit-Remaining': String(rateLimitResult.remaining || 0),
+    })
+    
+    if (!rateLimitResult.allowed) {
+      headers.set('Retry-After', String(rateLimitResult.retryAfter || 60))
+      
+      return new NextResponse(
+        JSON.stringify({ 
+          error: 'Too many requests. Please try again later.',
+          retryAfter: rateLimitResult.retryAfter 
+        }),
+        { 
+          status: 429,
+          headers 
+        }
+      )
+    }
+    
     const { email, walletAddress, twitterUsername, referralCode } = await request.json()
 
     // Validate email
     if (!email || !email.includes('@')) {
       return NextResponse.json(
         { error: 'Please provide a valid email address' },
-        { status: 400 }
+        { status: 400, headers }
+      )
+    }
+    
+    // Also rate limit by email (prevent same email spam)
+    const emailRateLimit = checkRateLimit(`email:${email.toLowerCase()}`, [
+      { windowMs: 5 * 60 * 1000, max: 2 },       // 2 attempts per 5 minutes per email
+      { windowMs: 60 * 60 * 1000, max: 3 },      // 3 attempts per hour per email
+    ])
+    
+    if (!emailRateLimit.allowed) {
+      headers.set('Retry-After', String(emailRateLimit.retryAfter || 300))
+      return new NextResponse(
+        JSON.stringify({ 
+          error: 'Too many attempts with this email. Please try again later.',
+          retryAfter: emailRateLimit.retryAfter 
+        }),
+        { status: 429, headers }
       )
     }
 
@@ -212,7 +323,7 @@ export async function POST(request: NextRequest) {
         points: data.points,
         pointsEarned: initialPoints
       }
-    })
+    }, { headers })
 
   } catch (error) {
     console.error('API error:', error)
