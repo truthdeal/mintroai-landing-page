@@ -563,6 +563,7 @@ const blockchains = [
   { name: "NEAR Protocol", logo: "/logos/near.svg" },
   { name: "BNB Chain", logo: "/logos/bnb.svg" },
   { name: "HyperEVM", logo: "/logos/hyperevm.png" },
+  { name: "Soneium", logo: "/logos/soneium.png" },
   { name: "Optimism", logo: "/logos/optimism.svg" },
   { name: "Arbitrum Sepolia", logo: "/logos/arbitrum.svg" },
   { name: "NEAR Testnet", logo: "/logos/near.svg" },
@@ -583,7 +584,7 @@ const faqs = [
   {
     question: "Which blockchains are supported?",
     answer:
-      "MintroAI supports major EVM-compatible blockchains including Arbitrum, Arbitrum Sepolia, BNB Chain, BNB Testnet, HyperEVM and using chain signatures with NEAR Protocol, and NEAR Testnet. We're continuously adding support for more blockchain networks.",
+      "MintroAI supports major EVM-compatible blockchains including Arbitrum, Arbitrum Sepolia, BNB Chain, BNB Testnet, HyperEVM, Soneium and using chain signatures with NEAR Protocol, and NEAR Testnet. We're continuously adding support for more blockchain networks.",
   },
   {
     question: "Is the generated code secure?",
