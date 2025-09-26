@@ -14,6 +14,7 @@ import Logo from "@/public/logo-small.svg";
 import Alex from "@/public/testimonials/alex.jpeg";
 import Sarah from "@/public/testimonials/sarah.jpeg";
 import Michael from "@/public/testimonials/michael.jpeg";
+import PricingSection from "@/components/pricing-section";
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
@@ -58,7 +59,7 @@ export default function LandingPage() {
         </Link>
           <div className="flex items-center space-x-4">
             <nav className="hidden md:flex items-center space-x-8">
-              {["features", "how-it-works", "testimonials", "FAQ"].map((section) => (
+              {["features", "how-it-works", "token-features", "testimonials", "FAQ"].map((section) => (
                 <Link
                   key={section}
                   href={`#${section}`}
@@ -68,7 +69,7 @@ export default function LandingPage() {
                     document.querySelector(`#${section}`)?.scrollIntoView({ behavior: "smooth" })
                   }}
                 >
-                  {section
+                  {section === "token-features" ? "Token Features" : section
                     .split("-")
                     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(" ")}
@@ -299,6 +300,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <PricingSection />
 
       {/* Testimonials Section */}
       <section id="testimonials" className="py-20 bg-black/50">
