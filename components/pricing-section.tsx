@@ -219,12 +219,80 @@ export default function PricingSection() {
         </div>
 
         {/* Feature Cards */}
-        <div className={cn(
-          "grid gap-6 mx-auto",
-          activeTab === "token" 
-            ? "grid-cols-1 md:grid-cols-3 max-w-6xl" 
-            : "grid-cols-1 md:grid-cols-2 max-w-4xl"
-        )}>
+        <div className="mx-auto max-w-7xl">
+          {/* Mobile: Horizontal Scroll */}
+          <div className="md:hidden overflow-x-auto pb-4 scrollbar-hide">
+            <div className="flex gap-4 w-max px-4">
+              {plans.map((plan, index) => (
+                <motion.div
+                  key={`${activeTab}-${plan.name}-mobile`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="w-[280px] flex-shrink-0"
+                >
+                  <div
+                    className={cn(
+                      "relative rounded-2xl border transition-all duration-300 min-h-[650px] flex flex-col",
+                      plan.highlighted
+                        ? "bg-gradient-to-b from-indigo-950/40 to-violet-950/40 border-violet-500/30 shadow-xl shadow-violet-500/10"
+                        : "bg-white/[0.02] border-white/[0.05] hover:border-white/[0.1]"
+                    )}
+                  >
+                    {plan.highlighted && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-medium rounded-full flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" />
+                        Most Popular
+                      </div>
+                    )}
+
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="mb-6">
+                        <h3 className="text-2xl font-medium mb-3 text-white">
+                          {plan.name}
+                        </h3>
+                        <p className="text-sm text-gray-400">{plan.description}</p>
+                      </div>
+
+                      <div className="space-y-6 flex-1">
+                        {plan.categories.map((category, catIdx) => (
+                          <div key={catIdx}>
+                            <h4 className="text-sm font-medium text-gray-400 mb-3">{category.title}</h4>
+                            <div className="space-y-2">
+                              {category.features.map((feature, idx) => (
+                                <div key={idx} className="flex items-center gap-3">
+                                  {feature.icon ? (
+                                    <feature.icon className={cn(
+                                      "w-5 h-5 flex-shrink-0",
+                                      plan.highlighted ? "text-violet-400" : "text-gray-500"
+                                    )} />
+                                  ) : (
+                                    <Check className={cn(
+                                      "w-5 h-5 flex-shrink-0",
+                                      plan.highlighted ? "text-violet-400" : "text-gray-500"
+                                    )} />
+                                  )}
+                                  <span className="text-sm text-gray-300">{feature.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: Grid Layout */}
+          <div className={cn(
+            "hidden md:grid gap-6 mx-auto",
+            activeTab === "token" 
+              ? "grid-cols-3 max-w-6xl" 
+              : "grid-cols-2 max-w-4xl"
+          )}>
           {plans.map((plan, index) => (
             <motion.div
               key={`${activeTab}-${plan.name}`}
@@ -286,6 +354,7 @@ export default function PricingSection() {
               </div>
             </motion.div>
           ))}
+          </div>
         </div>
 
         {/* Bottom Note */}
