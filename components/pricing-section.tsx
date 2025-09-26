@@ -219,10 +219,10 @@ export default function PricingSection() {
         </div>
 
         {/* Feature Cards */}
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl overflow-hidden">
           {/* Mobile: Horizontal Scroll */}
           <div className="md:hidden overflow-x-auto pb-4 scrollbar-hide">
-            <div className="flex gap-4 w-max px-4">
+            <div className="flex gap-4 w-max pl-4 pr-4">
               {plans.map((plan, index) => (
                 <motion.div
                   key={`${activeTab}-${plan.name}-mobile`}
@@ -233,20 +233,19 @@ export default function PricingSection() {
                 >
                   <div
                     className={cn(
-                      "relative rounded-2xl border transition-all duration-300 min-h-[650px] flex flex-col",
+                      "relative rounded-2xl border transition-all duration-300 min-h-[620px] flex flex-col",
                       plan.highlighted
                         ? "bg-gradient-to-b from-indigo-950/40 to-violet-950/40 border-violet-500/30 shadow-xl shadow-violet-500/10"
                         : "bg-white/[0.02] border-white/[0.05] hover:border-white/[0.1]"
                     )}
                   >
-                    {plan.highlighted && (
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-medium rounded-full flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        Most Popular
-                      </div>
-                    )}
-
-                    <div className="p-6 flex-1 flex flex-col">
+                    <div className="p-6 flex-1 flex flex-col relative">
+                      {plan.highlighted && (
+                        <div className="absolute top-0 right-0 px-2 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-medium rounded-bl-lg rounded-tr-2xl flex items-center gap-1">
+                          <Sparkles className="w-3 h-3" />
+                          Most Popular
+                        </div>
+                      )}
                       <div className="mb-6">
                         <h3 className="text-2xl font-medium mb-3 text-white">
                           {plan.name}
@@ -254,7 +253,7 @@ export default function PricingSection() {
                         <p className="text-sm text-gray-400">{plan.description}</p>
                       </div>
 
-                      <div className="space-y-6 flex-1">
+                      <div className="space-y-4 flex-1">
                         {plan.categories.map((category, catIdx) => (
                           <div key={catIdx}>
                             <h4 className="text-sm font-medium text-gray-400 mb-3">{category.title}</h4>
@@ -303,20 +302,19 @@ export default function PricingSection() {
             >
               <div
                 className={cn(
-                  "relative rounded-2xl border transition-all duration-300 min-h-[650px] flex flex-col",
+                  "relative rounded-2xl border transition-all duration-300 min-h-[580px] flex flex-col",
                   plan.highlighted
                     ? "bg-gradient-to-b from-indigo-950/40 to-violet-950/40 border-violet-500/30 shadow-xl shadow-violet-500/10"
                     : "bg-white/[0.02] border-white/[0.05] hover:border-white/[0.1]"
                 )}
               >
-                {plan.highlighted && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-medium rounded-full flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
-                    Most Popular
-                  </div>
-                )}
-
-                <div className="p-6 flex-1 flex flex-col">
+                <div className="p-6 flex-1 flex flex-col relative">
+                  {plan.highlighted && (
+                    <div className="absolute top-0 right-0 px-2 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-medium rounded-bl-lg rounded-tr-2xl flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" />
+                      Most Popular
+                    </div>
+                  )}
                   <div className="mb-6">
                     <h3 className="text-2xl font-medium mb-3 text-white">
                       {plan.name}
@@ -324,7 +322,7 @@ export default function PricingSection() {
                     <p className="text-sm text-gray-400">{plan.description}</p>
                   </div>
 
-                  <div className="space-y-6 flex-1">
+                  <div className="space-y-4 flex-1">
                     {plan.categories.map((category, catIdx) => (
                       <div key={catIdx}>
                         <h4 className="text-sm font-medium text-gray-400 mb-3">{category.title}</h4>
@@ -359,9 +357,6 @@ export default function PricingSection() {
 
         {/* Bottom Note */}
         <div className="text-center mt-12">
-          <p className="text-sm text-gray-400">
-            Compare features across tiers to choose the right plan for your project needs.
-          </p>
         </div>
       </div>
     </section>
