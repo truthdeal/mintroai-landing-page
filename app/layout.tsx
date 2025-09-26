@@ -18,6 +18,21 @@ export const metadata: Metadata = {
   title: "MintroAI - AI-Powered Token Creation, Vesting & Cross-Chain Smart Contracts",
   description: "Create ERC20 tokens, manage vesting schedules, deploy cross-chain smart contracts with AI. Features NEAR chain signatures, onchain AI by ChainGPT, vesting dashboards, and multi-chain deployment across Ethereum, Base, Arbitrum, Polygon, BNB, Avalanche, NEAR Protocol and more.",
   metadataBase: new URL('https://mintro.ai'),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+    ],
+    other: [
+      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
+    ]
+  },
   keywords: [
     'ERC20 token creation',
     'token vesting platform',
