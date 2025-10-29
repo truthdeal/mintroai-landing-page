@@ -566,6 +566,7 @@ const blockchains = [
   { name: "Arbitrum", logo: "/logos/arbitrum.svg" },
   { name: "NEAR Protocol", logo: "/logos/near.svg" },
   { name: "BNB Chain", logo: "/logos/bnb.svg" },
+  { name: "Base", logo: "/logos/base.svg" },
   { name: "HyperEVM", logo: "/logos/hyperevm.png" },
   { name: "Soneium", logo: "/logos/soneium.png" },
   { name: "Optimism", logo: "/logos/optimism.svg" },
